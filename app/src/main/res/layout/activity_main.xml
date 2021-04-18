@@ -71,7 +71,8 @@
         app:iconGravity="textEnd"
         app:iconPadding="0dp"
         app:iconSize="50dp"
-        app:iconTint="0"
+        app:iconTint="#00FFFFFF"
+        app:iconTintMode="src_over"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
