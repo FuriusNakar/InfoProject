@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory
 
 
 class Ship (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
-    //Paramètre du ship : Context (instaure les commende de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
+    //Paramètre du ship : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
 
     // transfore image du ship en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
