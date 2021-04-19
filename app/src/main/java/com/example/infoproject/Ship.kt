@@ -18,14 +18,14 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         // style : startscreen.typeship("sortie/id du ship choisi")
 
     //redimensionnement
-    private val largeur = ScreenX / 20f //go faire comme pour Space invaders après on peut voir
-    val hauteur = ScreenY / 20f // """"""""""
+    private val largeur = ScreenY / 11f
+    val hauteur = ScreenY / 11f
 
     //pos
-    val position = RectF(20f, ScreenY / 2f, 20f + largeur, ScreenY/2 + hauteur)
+    val position = RectF(20f, ScreenY / 2f - hauteur / 2f, 20f + largeur, ScreenY/2f + hauteur / 2f)
 
     //SPEEEEEED
-    private val SPEEEEED = 500000000f   //rapido bb
+    //private val SPEEEEED = 500000000f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
     companion object {
@@ -45,12 +45,12 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     //ici la fonction est adaptée à notre cas (mouvement vertical et non horizontal)
     fun update(fps: Long) {     //type long = 64bit d'info donc précis
         // Move as long as it doesn't try and leave the screen
-        if (bouge == haut && position.top > 0) {
-            position.top -= SPEEEEED / fps
+        if (bouge == haut && position.top > 2f/11f * ScreenY - hauteur / 2f) {
+            position.top -= hauteur
         }
 
-        else if (bouge == bas && position.bottom < ScreenY - hauteur) {
-            position.top += SPEEEEED / fps
+        else if (bouge == bas && position.bottom < 9f/11f * ScreenY + hauteur / 2f) {
+            position.top += hauteur
         }
 
         position.bottom = position.top + hauteur
