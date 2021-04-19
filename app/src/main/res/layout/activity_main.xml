@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_v2"
-    tools:context=".MainActivity">
+    tools:context=".PewPewActivity">
 
     <Button
         android:id="@+id/button_up"
