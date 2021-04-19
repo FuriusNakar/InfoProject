@@ -52,7 +52,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         else if (bouge == bas && position.bottom < 9f/11f * ScreenY + hauteur / 2f) {
             position.top += hauteur
         }
-
+        bouge = stop
         position.bottom = position.top + hauteur
     }
 
