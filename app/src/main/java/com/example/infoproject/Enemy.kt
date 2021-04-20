@@ -6,15 +6,16 @@ import android.graphics.BitmapFactory
 import android.graphics.RectF
 import kotlin.random.Random
 
-class Enemy (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
+class Enemy (context : Context, var posx : Float, var posy : Float, typeenemy : Int, ligne : Int) {
     //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
     // ligne sert pour le spawn (random)
     // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
+    //dans le View il y a moulte enemy -> posy random, posx initial fixé
 
     //redimensionnement
-    private val largeur = ScreenY / 11f
-    val hauteur = ScreenY / 11f
+    private val largeur = posy / 11f
+    val hauteur = posy / 11f
 
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
@@ -23,14 +24,14 @@ class Enemy (context : Context, private val ScreenX : Int, private val ScreenY :
     //pos
     val position =
         RectF(
-            ScreenX - largeur,
-            ScreenY /2f - hauteur / 2f,
-            ScreenX.toFloat(),
-            ScreenY / 2f + hauteur / 2f
+            posx - largeur,
+            (posy * ligne - hauteur/2) ,
+            posx,
+            (posy * ligne + hauteur/2)
         )
 
     //SPEEEEEED
-    private val SPEEEEED = -50f   //rapido bb
+    private val SPEEEEED = 50f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
     companion object{
@@ -50,33 +51,35 @@ init{
         Ebitmap1 = Bitmap.createScaledBitmap(Ebitmap1, largeur.toInt(), hauteur.toInt(), false)
         Ebitmap2= Bitmap.createScaledBitmap(Ebitmap2, largeur.toInt(), hauteur.toInt(), false)
 }
-
-open fun L() {
-    for (i in 1..11) {
-        val ligne = arrayListOf<Int>(ScreenX * i / 11)
-    }
-    //pouet pouet cacahuetes
-}
-
-    fun uptade(fps : Long){
+    fun update(fps : Long){
         if (position.left > 0){
             position.left -= SPEEEEED/fps
         }
         position.right = position.left + largeur
     }
+/*          a laisser
+fun L(a : Int) : {
+    var ligne = 0
+    for (i in 1..11) {
+        ligne = listOf<Int>(posx * i / 11)
+    }
+    return ligne
+    //pouet pouet cacahuetes
+}
 
     //fction qui fait spawn les enemy sur une ligne random (entre ligne 2-9 compris)
     fun spawn(){
-
-
+        var spawnok = true
         val random_ligne = Random.nextInt(2,10)
         position.top = L.ligne[random_ligne] - hauteur / 2f
         position.bottom = L.ligne[random_ligne] + hauteur / 2f
 
         nbre_enemy ++
 
-
-
+        when (nbre_enemy > 15){
+             spawnok = false
+        }
+*/
     }
     //fction qui enregistre le hit du laser du vaisseau
     fun hit(){
