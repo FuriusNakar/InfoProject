@@ -33,7 +33,7 @@
         app:layout_constraintStart_toEndOf="@+id/up_arrow" />
 
     <Button
-        android:id="@+id/down_arrow2"
+        android:id="@+id/fire_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="20dp"
