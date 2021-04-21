@@ -6,16 +6,16 @@ import android.graphics.BitmapFactory
 import android.graphics.RectF
 import kotlin.random.Random
 
-class Enemy (context : Context, var posx : Float, var posy : Float, typeenemy : Int, ligne : Int) {
+class Enemy (context : Context, var ScreenX : Float, var ScreenY : Float, typemob : Int, ligne : Int) {
     //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
     // ligne sert pour le spawn (random)
     // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
     //dans le View il y a moulte enemy -> posy random, posx initial fixé
-
+    var vie = 1
     //redimensionnement
-    private val largeur = posy / 11f
-    val hauteur = posy / 11f
+    private val largeur = ScreenY / 11f
+    val hauteur = ScreenY / 11f
 
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
@@ -24,10 +24,10 @@ class Enemy (context : Context, var posx : Float, var posy : Float, typeenemy : 
     //pos
     val position =
         RectF(
-            posx - largeur,
-            (posy * ligne - hauteur/2) ,
-            posx,
-            (posy * ligne + hauteur/2)
+            ScreenX - largeur,
+            (ScreenY * ligne - hauteur/2) ,
+            ScreenX,
+            ScreenY * ligne + hauteur/2
         )
 
     //SPEEEEEED
@@ -35,22 +35,28 @@ class Enemy (context : Context, var posx : Float, var posy : Float, typeenemy : 
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
     companion object{
-        var Ebitmap1 : Bitmap? = null
-        var Ebitmap2 : Bitmap? = null
+
+        lateinit var Ebitmap : Bitmap
 
         var nbre_enemy = 0
 }
 
-    //transformation et redimenssionnement du vaisseau sur le convas qu'on a
-init{
-        Ebitmap1 =
-            BitmapFactory.decodeResource(context.resources, R.drawable.playership) //mettre image enemy
-        Ebitmap2 =
-            BitmapFactory.decodeResource(context.resources, R.drawable.playership)
+    //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
+    init {
 
-        Ebitmap1 = Bitmap.createScaledBitmap(Ebitmap1, largeur.toInt(), hauteur.toInt(), false)
-        Ebitmap2= Bitmap.createScaledBitmap(Ebitmap2, largeur.toInt(), hauteur.toInt(), false)
-}
+            if (typemob == 1) {
+                Ebitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.alien)
+            } else if (typemob == 2) {
+                Ebitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
+            }else if (typemob == 3){
+                BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+            }
+
+        Ebitmap = Bitmap.createScaledBitmap(Ebitmap, largeur.toInt(), hauteur.toInt(), false)
+    }
+
     fun update(fps : Long){
         if (position.left > 0){
             position.left -= SPEEEEED/fps
@@ -80,10 +86,10 @@ fun L(a : Int) : {
              spawnok = false
         }
 */
-    }
+
     //fction qui enregistre le hit du laser du vaisseau
-    fun hit(){
-        if (laser.position.left )
+    fun degat(){
+        vie -= 1
     }
 
 

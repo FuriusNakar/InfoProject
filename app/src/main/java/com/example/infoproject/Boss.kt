@@ -6,46 +6,81 @@ import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
 
-class Boss(context : Context, private val posx : Float, private val posy : Float, typeboss : Int, ligne : Int) {
+class Boss(context : Context, private val ScreenX : Float, private val ScreenY : Float, ligne : Int, typeboss : Int  var view : PewPewView) {
 
-    val largeur = posx / 10f
-    val hauteur = posy / 4f
 
-    var Bbitmap : Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.playership)
+    var vie = 20
+    val largeur = ScreenX / 11f
+    val hauteur = ScreenY / 11f
+
 
     //pos
     val position =
         RectF(
-            posx - largeur,
-            posy * ligne - hauteur/2 ,
-            posx,
-            posy * ligne + hauteur/2
+            ScreenX - largeur,
+            ScreenY* ligne - hauteur/2 ,
+            ScreenX,
+            ScreenY * ligne + hauteur/2
         )
     //speed
-    val speed = 60f
+    var speed = 60f
 
-    init{var Bbitmap = Bitmap.createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)}
+    //fction qui recois dans "type" par pewpewview
 
-    fun update(fps : Long){
-        var en_vie = true
-            while (en_vie){
-                position.top -= speed / fps
-                when (position.intersect(posx - largeur, 0f, posx, posy * + hauteur/2)){
-                    rebondit()
-                }
-                if (position.top < 0) {
-                //pas fini
-
-            }
+    companion object {
+        lateinit var Bbitmap : Bitmap
         }
 
+    init{
+
+            if (typeboss == 1) {
+                 Bbitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.alien_boss)
+            }
+            else if (typeboss == 2) {
+                 Bbitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.dragon_boss)
+            }
+            else if (typeboss == 3) {
+                Bbitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+            }
+
+
+
+        Bbitmap = Bitmap.createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
+    }
+
+    fun update(fps : Long){
+            while (vie > 0){
+                position.top -= speed / fps
+                if (position.top < 0 || position.bottom > view.screenhight ){//screenhight à faire sur pewpewview
+                    speed *= - 1
+                    position.offset(0f, speed)
+                }
+        }
+    }
+    fun degat(){
+        vie -= 1
+    }
+
+
+
+
+    /*
+    fun update(interval: Double) {
+        var up = (interval * obstacleVitesse).toFloat()
+        obstacle.offset(0f, up)
+        if (obstacle.top < 0 || obstacle.bottom > view.screenHeight) {
+            obstacleVitesse *= -1
+            up = (interval * 3 * obstacleVitesse).toFloat()
+            obstacle.offset(0f, up)
+        }
     }
     fun rebondit() {
         speed = -speed
         position.offset(0F, 3.0F*speed)
     }
-
-
-
+*/
 
 }

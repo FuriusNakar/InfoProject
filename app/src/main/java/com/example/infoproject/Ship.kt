@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory
 
 
 
-class Ship (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
+class Ship (context : Context, private val ScreenX : Float, private val ScreenY : Float) {
     //Paramètre du ship : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
 
     // transfore image du ship en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
@@ -16,6 +16,8 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
          //mettre emplacement du ship choisi
         // faire programme qui choisit le ship au début du lancement et puis link l'emplacement du fichier à ici
         // style : startscreen.typeship("sortie/id du ship choisi")
+
+    var vie = 5
 
     //redimensionnement
     private val largeur = ScreenY / 11f
@@ -45,15 +47,20 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     //ici la fonction est adaptée à notre cas (mouvement vertical et non horizontal)
     fun update(fps: Long) {     //type long = 64bit d'info donc précis
         // Move as long as it doesn't try and leave the screen
-        if (bouge == haut && position.top > 2f/11f * ScreenY - hauteur / 2f) {
-            position.top -= hauteur
+        while (vie > 0) {
+            if (bouge == haut && position.top > 2f / 11f * ScreenY - hauteur / 2f) {
+                position.top -= hauteur
+            } else if (bouge == bas && position.bottom < 9f / 11f * ScreenY + hauteur / 2f) {
+                position.top += hauteur
+            }
+            bouge = stop
+            position.bottom = position.top + hauteur
         }
-
-        else if (bouge == bas && position.bottom < 9f/11f * ScreenY + hauteur / 2f) {
-            position.top += hauteur
-        }
-        bouge = stop
-        position.bottom = position.top + hauteur
     }
+
+    fun degat(){
+        vie -= 1
+    }
+
 
 }
