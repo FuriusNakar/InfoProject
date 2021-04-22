@@ -102,6 +102,7 @@ class PewPewView(context: Context,
             canvas.drawText("Score: $score   Lives: $lives Wave: " +
                     "$waves HI: $highScore", 20f, 75f, paint)
 
+
             // Draw everything to the screen
             holder.unlockCanvasAndPost(canvas)
         }

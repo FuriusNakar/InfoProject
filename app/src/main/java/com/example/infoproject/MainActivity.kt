@@ -3,6 +3,12 @@ package com.example.infoproject
 import android.app.Activity
 import android.graphics.Point
 import android.os.Bundle
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 
 
 class PewPewActivity : Activity() {

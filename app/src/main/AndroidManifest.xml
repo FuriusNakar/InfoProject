@@ -7,8 +7,9 @@
         android:label="PewPewGame"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.InfoProject">
-        <activity android:name=".PewPewActivity">
+        android:theme="@style/Theme.InfoProject.NoActionBar">
+        <activity android:name=".PewPewActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,21 +6,21 @@ import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
 
-class Boss(context : Context, private val ScreenX : Float, private val ScreenY : Float, ligne : Int, typeboss : Int  var view : PewPewView) {
+class Boss(context : Context, private val ScreenX : Float, private val ScreenY : Float, ligne : Int, typeboss : Int,  var view : PewPewView) {
 
 
     var vie = 20
-    val largeur = ScreenX / 11f
+    val largeur = ScreenY / 11f
     val hauteur = ScreenY / 11f
 
 
     //pos
     val position =
         RectF(
-            ScreenX - largeur,
-            ScreenY* ligne - hauteur/2 ,
-            ScreenX,
-            ScreenY * ligne + hauteur/2
+            ScreenX - largeur - 20f,
+            ScreenY * ligne / 11f - hauteur/2 ,
+            ScreenX - 20f,
+            ScreenY * ligne /11f + hauteur/2
         )
     //speed
     var speed = 60f
@@ -43,7 +43,7 @@ class Boss(context : Context, private val ScreenX : Float, private val ScreenY :
             }
             else if (typeboss == 3) {
                 Bbitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+                    BitmapFactory.decodeResource(context.resources, R.drawable.rooster)
             }
 
 
@@ -54,7 +54,7 @@ class Boss(context : Context, private val ScreenX : Float, private val ScreenY :
     fun update(fps : Long){
             while (vie > 0){
                 position.top -= speed / fps
-                if (position.top < 0 || position.bottom > view.screenhight ){//screenhight à faire sur pewpewview
+                if (position.top < 2f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){//screenhight à faire sur pewpewview
                     speed *= - 1
                     position.offset(0f, speed)
                 }

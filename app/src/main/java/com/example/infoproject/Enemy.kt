@@ -24,10 +24,10 @@ class Enemy (context : Context, var ScreenX : Float, var ScreenY : Float, typemo
     //pos
     val position =
         RectF(
-            ScreenX - largeur,
-            (ScreenY * ligne - hauteur/2) ,
-            ScreenX,
-            ScreenY * ligne + hauteur/2
+            ScreenX - largeur - 0f,
+            ScreenY * ligne / 11f - hauteur/2,
+            ScreenX - 0f,
+            ScreenY * ligne / 11f + hauteur/2
         )
 
     //SPEEEEEED
@@ -47,10 +47,12 @@ class Enemy (context : Context, var ScreenX : Float, var ScreenY : Float, typemo
             if (typemob == 1) {
                 Ebitmap =
                     BitmapFactory.decodeResource(context.resources, R.drawable.alien)
-            } else if (typemob == 2) {
+            }
+            else if (typemob == 2) {
                 Ebitmap =
                     BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
-            }else if (typemob == 3){
+            }
+            else if (typemob == 3){
                 BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
             }
 
