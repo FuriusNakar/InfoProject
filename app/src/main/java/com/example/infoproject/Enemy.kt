@@ -38,22 +38,16 @@ class Enemy (context : Context, var ScreenX : Float, var ScreenY : Float, typemo
 
         lateinit var Ebitmap : Bitmap
 
-        var nbre_enemy = 0
+        //var nbre_enemy = 0
 }
 
     //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
     init {
 
-            if (typemob == 1) {
-                Ebitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.alien)
-            }
-            else if (typemob == 2) {
-                Ebitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
-            }
-            else if (typemob == 3){
-                BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+            when (typemob){
+                1 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.alien)
+                2 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
+                3 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
             }
 
         Ebitmap = Bitmap.createScaledBitmap(Ebitmap, largeur.toInt(), hauteur.toInt(), false)

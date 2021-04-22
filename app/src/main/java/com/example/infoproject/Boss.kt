@@ -33,19 +33,11 @@ class Boss(context : Context, private val ScreenX : Float, private val ScreenY :
 
     init{
 
-            if (typeboss == 1) {
-                 Bbitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.alien_boss)
+            when (typeboss){
+                1 -> Bbitmap = BitmapFactory.decodeResource(context.resources, R.drawable.alien_boss)
+                2 -> Bbitmap = BitmapFactory.decodeResource(context.resources, R.drawable.dragon_boss)
+                3 -> Bbitmap = BitmapFactory.decodeResource(context.resources, R.drawable.rooster)
             }
-            else if (typeboss == 2) {
-                 Bbitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.dragon_boss)
-            }
-            else if (typeboss == 3) {
-                Bbitmap =
-                    BitmapFactory.decodeResource(context.resources, R.drawable.rooster)
-            }
-
 
 
         Bbitmap = Bitmap.createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
