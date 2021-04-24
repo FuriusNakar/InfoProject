@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/start_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ice_planet"
+    tools:context=".PewPewActivity" >
+
+    <Button
+        android:id="@+id/previous_shiptype"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:background="#00FFFFFF"
+        android:foreground="@drawable/arrow_shiptype"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <Button
+        android:id="@+id/previous_shipcolor"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:background="#00FFFFFF"
+        android:foreground="@drawable/arrow_shipcolor"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/previous_shiptype"
+        app:layout_constraintVertical_bias="0.7" />
+
+    <Button
+        android:id="@+id/next_shipcolor"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginLeft="200dp"
+        android:background="#00FFFFFF"
+        android:foreground="@drawable/arrow_shipcolor"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/previous_shiptype"
+        app:layout_constraintVertical_bias="0.702" />
+
+    <Button
+        android:id="@+id/next_shiptype"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:background="#00FFFFFF"
+        android:foreground="@drawable/arrow_shiptype"
+        android:rotation="90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/start_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#00FFFFFF"
+        android:foreground="@drawable/start_button"
+        android:scaleX="1.4"
+        android:scaleY="1.2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65" />
+
+    <ImageView
+        android:id="@+id/ship_png"
+        android:layout_width="146dp"
+        android:layout_height="113dp"
+        android:rotation="-90"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:translationX="-3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/next_shiptype"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/previous_shiptype"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.375"
+        app:srcCompat="@drawable/xwing_blue" />
+
+    <ImageView
+        android:id="@+id/color_png"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/next_shipcolor"
+        app:layout_constraintStart_toEndOf="@+id/previous_shipcolor"
+        app:layout_constraintTop_toBottomOf="@+id/ship_png"
+        app:layout_constraintVertical_bias="0.62"
+        app:srcCompat="@drawable/pentagone_bleu" />
+
+    <ImageView
+        android:id="@+id/title_png"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pewpew_title" />
+
+    <ImageView
+        android:id="@+id/score_png"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginRight="75dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:srcCompat="@drawable/score_png" />
+
+    <TextView
+        android:id="@+id/score_txt"
+        android:layout_width="150dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:scaleX="1"
+        android:text="ShowScoreHere"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/score_png"
+        app:layout_constraintStart_toStartOf="@+id/score_png"
+        app:layout_constraintTop_toBottomOf="@+id/score_png" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

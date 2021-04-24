@@ -5,4 +5,5 @@ package com.example.infoproject
 // voir image de Sylvain sur FB
 
 class StartScreen {
+
 }

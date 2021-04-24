@@ -40,7 +40,7 @@ class Boss(context : Context, private val ScreenX : Float, private val ScreenY :
             }
 
 
-        Bbitmap = Bitmap.createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
+        Bbitmap = createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
     fun update(fps : Long){
