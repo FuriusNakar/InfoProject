@@ -12,10 +12,11 @@ class Ship (context : Context, private val ScreenX : Float, private val ScreenY 
 
     // transfore image du ship en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
-    var Vbitmap : Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.playership) //herédité de Bitmap
-         //mettre emplacement du ship choisi
-        // faire programme qui choisit le ship au début du lancement et puis link l'emplacement du fichier à ici
-        // style : startscreen.typeship("sortie/id du ship choisi")
+    var Vbitmap: Bitmap =
+        BitmapFactory.decodeResource(context.resources, R.drawable.playership) //herédité de Bitmap
+    //mettre emplacement du ship choisi
+    // faire programme qui choisit le ship au début du lancement et puis link l'emplacement du fichier à ici
+    // style : startscreen.typeship("sortie/id du ship choisi")
 
     var vie = 5
 
@@ -24,7 +25,8 @@ class Ship (context : Context, private val ScreenX : Float, private val ScreenY 
     val hauteur = ScreenY / 11f
 
     //pos
-    val position = RectF(20f, ScreenY / 2f - hauteur / 2f, 20f + largeur, ScreenY/2f + hauteur / 2f)
+    var position =
+        RectF(20f, ScreenY / 2f - hauteur / 2f, 20f + largeur, ScreenY / 2f + hauteur / 2f)
 
     //SPEEEEEED
     //private val SPEEEEED = 500000000f   //rapido bb
@@ -61,6 +63,7 @@ class Ship (context : Context, private val ScreenX : Float, private val ScreenY 
     fun degat(){
         vie -= 1
     }
+
 
 
 }
