@@ -33,7 +33,7 @@ class Ship (context : Context, private val ScreenX : Float, private val ScreenY 
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
     companion object {
-        // Which ways can the ship move
+        // haut, bas, stop
         const val stop = 0
         const val haut = 1
         const val bas = 2

@@ -1,23 +1,121 @@
 package com.example.infoproject
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
-import androidx.appcompat.app.ActionBar
+
 import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+
+import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Toast
+
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.start_screen.*
 
 
-class PewPewActivity : Activity() {
+class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
-    // kotlinInvadersView will be the view of the game
-    // It will also hold the logic of the game
-    // and respond to screen touches as well
-    private var PewPewView: PewPewView? = null
+    val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_rouge)
+    val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
 
+    //liste dans une liste, sur python c'était comme ca
+    val test_shiplist = arrayListOf<>(spaceship_list, xwing_list)
+
+
+    //val list_ship = intArrayOf(R.drawable.spaceship_blue, R.drawable.xwing_blue)
+    val list_color = intArrayOf(R.drawable.pentagone_bleu, R.drawable.pentagone_vert, R.drawable.pentagone_rouge)
+    //val is_ship de base = list_ship[0]
+    var id_ship = 0
+    var couleur_id = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.start_screen)
+
+        //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
+        ship_png.setOnClickListener{
+            val jeux = Intent(this, JeuxActivity::class.java)
+
+            startActivity(jeux)
+        }
+        //Score_text à uptade avec pewpewview
+
+    }
+
+    override fun onClick(v: View?) {
+        when (v.id){
+
+            R.id.previous_shiptype ->
+                if (id_ship == 0){
+                    id_ship = test_shiplist.size
+                    ship_png.setImageResource(test_shiplist[id_ship])
+                    ship_png.colorFilter = null
+                    id_ship --
+                }
+                else {
+                    ship_png.setImageResource(test_shiplist[id_ship])
+                    id_ship --
+                }
+
+
+            R.id.next_shiptype->
+                if (id_ship == test_shiplist.size){
+                    id_ship = 0
+                    ship_png.setImageResource(test_shiplist[id_ship])
+                    ship_png.colorFilter = null
+                    id_ship ++
+                }
+                else {
+                    ship_png.setImageResource(test_shiplist[id_ship])
+                    id_ship ++
+                }
+
+
+            R.id.previous_shipcolor ->
+                if (couleur_id == 0){
+                    couleur_id = list_color.size
+                    color_png.setImageResource(list_color[couleur_id])
+                    color_png.colorFilter = null
+                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    couleur_id --
+                }
+                else {
+                    color_png.setImageResource(list_color[couleur_id])
+                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    couleur_id --
+                }
+
+
+
+            R.id.next_shipcolor ->
+                if (couleur_id == list_color.size){
+                    couleur_id = list_color.size
+                    color_png.setImageResource(list_color[couleur_id])
+                    color_png.colorFilter = null
+                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    couleur_id --
+                }
+                else {
+                    color_png.setImageResource(list_color[couleur_id])
+                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    color_png.colorFilter = null
+                    couleur_id --
+                }
+
+
+        }
+
+    }
+
+}
+
+
+
+/*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
