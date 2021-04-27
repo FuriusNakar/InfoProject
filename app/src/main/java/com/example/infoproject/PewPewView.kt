@@ -7,6 +7,7 @@ import android.view.SurfaceView
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import kotlin.random.Random
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
     Runnable {
@@ -16,12 +17,14 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private val pause = true
     private val canvas = Canvas()
     private var ship = Ship(context, size.x, size.y)
-    private val typemob = arrayListOf<Int>(1,2,3)
+    private val typemob = arrayListOf<Int>(1, 2, 3)
+
     //private val ligne = arrayListOf<>(1,2,3,4,5,6)
-    private val ligne : Int
+    private var ligne: Int
+
     //liste d'enemy + nombre qui spawn pour ensuite (contrainte pour Boss)
     private var enemies = ArrayList<Enemy>()
-    private val nbre_enemies = 0
+    private var nbre_enemies = 0
 
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
@@ -31,20 +34,43 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     private var score = 0
     private var vie = 5
+    private var ligne_spawn = List(20) { Random.nextInt(2, 9) }
 
 
-    fun spawn(){
+    fun spawn(f: Int) {
+        //fction de spawn d'enemy en fction du type
+        when (typemob[f]) {
+            1 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
+                nbre_enemies++
+            }
+            2 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
+                nbre_enemies++
+            }
+            3 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
+                nbre_enemies++
+
+
+            }
+        }
+    }
+
+    private fun draw(){
+        //fction responsable du dessiner les bitmaps sur imageview
 
 
     }
 
     override fun onClick(v: View?) {
+        //fction qui agit lorsqu'on touche les boutons
         if (v != null) {
             when (v.id) {
 
-                R.id.up_arrow -> ligne ++
+                R.id.up_arrow -> ligne++
 
-                R.id.down_arrow -> ligne --
+                R.id.down_arrow -> ligne--
 
                 R.id.fire_button -> shipshoot
             }
@@ -59,4 +85,4 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
 
 
-}
+
