@@ -23,7 +23,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
 
     //liste dans une liste, sur python c'était comme ca
-    val test_shiplist = arrayListOf<>(spaceship_list, xwing_list)
+    val test_shiplist = arrayListOf(spaceship_list, xwing_list)
 
 
     //val list_ship = intArrayOf(R.drawable.spaceship_blue, R.drawable.xwing_blue)
@@ -36,77 +36,80 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.start_screen)
 
-        //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
-        ship_png.setOnClickListener{
-            val jeux = Intent(this, JeuxActivity::class.java)
+        previous_shiptype.setOnClickListener(this)
+        next_shiptype.setOnClickListener(this)
+        previous_shipcolor.setOnClickListener(this)
+        next_shipcolor.setOnClickListener(this)
 
-            startActivity(jeux)
+        //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
+        start_button.setOnClickListener{
+            //val jeux = Intent(this, JeuxActivity::class.java)
+
+            //startActivity(jeux)
         }
         //Score_text à uptade avec pewpewview
 
     }
 
     override fun onClick(v: View?) {
-        when (v.id){
+        if (v != null) {
+            when (v.id){
 
-            R.id.previous_shiptype ->
-                if (id_ship == 0){
-                    id_ship = test_shiplist.size
-                    ship_png.setImageResource(test_shiplist[id_ship])
-                    ship_png.colorFilter = null
-                    id_ship --
-                }
-                else {
-                    ship_png.setImageResource(test_shiplist[id_ship])
-                    id_ship --
-                }
-
-
-            R.id.next_shiptype->
-                if (id_ship == test_shiplist.size){
-                    id_ship = 0
-                    ship_png.setImageResource(test_shiplist[id_ship])
-                    ship_png.colorFilter = null
-                    id_ship ++
-                }
-                else {
-                    ship_png.setImageResource(test_shiplist[id_ship])
-                    id_ship ++
-                }
+                R.id.previous_shiptype ->
+                    if (id_ship == 0){
+                        id_ship = test_shiplist.size - 1
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        ship_png.colorFilter = null
+                    }
+                    else {
+                        id_ship --
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    }
 
 
-            R.id.previous_shipcolor ->
-                if (couleur_id == 0){
-                    couleur_id = list_color.size
-                    color_png.setImageResource(list_color[couleur_id])
-                    color_png.colorFilter = null
-                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
-                    couleur_id --
-                }
-                else {
-                    color_png.setImageResource(list_color[couleur_id])
-                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
-                    couleur_id --
-                }
+                R.id.next_shiptype->
+                    if (id_ship == test_shiplist.size - 1){
+                        id_ship = 0
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        ship_png.colorFilter = null
+                    }
+                    else {
+                        id_ship ++
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    }
+
+
+                R.id.previous_shipcolor ->
+                    if (couleur_id == 0){
+                        couleur_id = list_color.size - 1
+                        color_png.setImageResource(list_color[couleur_id])
+                        color_png.colorFilter = null
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    }
+                    else {
+                        couleur_id --
+                        color_png.setImageResource(list_color[couleur_id])
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    }
 
 
 
-            R.id.next_shipcolor ->
-                if (couleur_id == list_color.size){
-                    couleur_id = list_color.size
-                    color_png.setImageResource(list_color[couleur_id])
-                    color_png.colorFilter = null
-                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
-                    couleur_id --
-                }
-                else {
-                    color_png.setImageResource(list_color[couleur_id])
-                    ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
-                    color_png.colorFilter = null
-                    couleur_id --
-                }
+                R.id.next_shipcolor ->
+                    if (couleur_id == list_color.size - 1){
+                        couleur_id = 0
+                        color_png.setImageResource(list_color[couleur_id])
+                        color_png.colorFilter = null
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                    }
+                    else {
+                        couleur_id ++
+                        color_png.setImageResource(list_color[couleur_id])
+                        ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        color_png.colorFilter = null
+                    }
 
 
+            }
         }
 
     }
@@ -146,3 +149,5 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         PewPewView?.pause()
     }
 }
+
+ */
