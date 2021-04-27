@@ -21,6 +21,9 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
     var visible = true
 
 
+    val frequenceshoot = Random(3)
+
+
     //pos
     val position =
         RectF(
@@ -53,11 +56,21 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
         Ebitmap = Bitmap.createScaledBitmap(Ebitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
-    fun update(fps : Long){
-        if (position.left > 0){
-            position.left -= SPEEEEED/fps
+    fun update(fps : Long) {
+        while (vie > 0) {
+            if (position.left > 0) {
+                position.left -= SPEEEEED / fps
+            }
+            position.right = position.left + largeur
         }
-        position.right = position.left + largeur
+    }
+    fun degat(){
+        vie -= 1
+    }
+
+    fun shoot(){
+
+
     }
 /*          a laisser
 fun L(a : Int) : {
@@ -84,9 +97,7 @@ fun L(a : Int) : {
 */
 
     //fction qui enregistre le hit du laser du vaisseau
-    fun degat(){
-        vie -= 1
-    }
+
 
 
 }

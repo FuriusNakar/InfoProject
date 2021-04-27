@@ -9,11 +9,11 @@ open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, 
     //booleen qui sert pour check si le bullet est vivant ou non --> trash collector
     var visible = true
 
-    private val largeur = ScreenY / 33f
+    val largeur = ScreenY / 33f
     val hauteur = ScreenY / 33f
 
     //pos
-    val position =
+    open var position =
         RectF(
             ScreenX - largeur - 0f,
             ScreenY * ligne / 11f - hauteur / 2,

@@ -26,6 +26,8 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     val test_shiplist = arrayListOf(spaceship_list, xwing_list)
 
 
+
+
     //val list_ship = intArrayOf(R.drawable.spaceship_blue, R.drawable.xwing_blue)
     val list_color = intArrayOf(R.drawable.pentagone_bleu, R.drawable.pentagone_vert, R.drawable.pentagone_rouge)
     //val is_ship de base = list_ship[0]
@@ -40,12 +42,13 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         next_shiptype.setOnClickListener(this)
         previous_shipcolor.setOnClickListener(this)
         next_shipcolor.setOnClickListener(this)
+        
 
         //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
         start_button.setOnClickListener{
-            //val jeux = Intent(this, JeuxActivity::class.java)
+            val jeux = Intent(this, JeuxActivity::class.java)
 
-            //startActivity(jeux)
+            startActivity(jeux)
         }
         //Score_text à uptade avec pewpewview
 

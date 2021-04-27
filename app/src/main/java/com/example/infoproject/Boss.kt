@@ -46,7 +46,7 @@ class Boss(context : Context, private val ScreenX : Float, private val ScreenY :
     fun update(fps : Long){
             while (vie > 0){
                 position.top -= speed / fps
-                if (position.top < 2f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){//screenhight à faire sur pewpewview
+                if (position.top < 2f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
                     speed *= - 1
                     position.offset(0f, speed)
                 }
