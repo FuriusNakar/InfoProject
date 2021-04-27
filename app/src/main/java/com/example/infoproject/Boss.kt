@@ -6,7 +6,7 @@ import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
 
-class Boss(context : Context, private val ScreenX : Float, private val ScreenY : Float, ligne : Int, typeboss : Int,  var view : PewPewView) {
+class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int,  var view : PewPewView) {
 
 
     var vie = 20

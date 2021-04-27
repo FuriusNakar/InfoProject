@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.RectF
 import kotlin.random.Random
 
-class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val typemob : Int, val ligne : Int) {
+class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemob : Int, val ligne : Int) {
     //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
     // ligne sert pour le spawn (random)
     // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
@@ -20,8 +20,6 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
 
-
-    val frequenceshoot = Random(3)
 
 
     //pos
@@ -69,6 +67,11 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
     }
 
     fun shoot(){
+        val frequenceshoot : Random()
+        for (i in frequenceshoot.nextInt(1,3)){
+            enemy.shoot
+
+        }
 
 
     }

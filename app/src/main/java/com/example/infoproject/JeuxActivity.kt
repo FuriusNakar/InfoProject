@@ -36,6 +36,7 @@ abstract class JeuxActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
     // This method executes when the player starts the game
     override fun onResume() {
         super.onResume()

@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
 
-open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, val ligne : Int, val typemob : Any) {
+open class Bullet (context : Context, val ScreenX : Int, val ScreenY : Int, val ligne : Int, val typemob : Any) {
     //booleen qui sert pour check si le bullet est vivant ou non --> trash collector
     var visible = true
 
@@ -31,14 +31,12 @@ open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, 
     }
 
     init {
-
         when (typemob) {
             1 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.slime)
             2 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.fire)
             3 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.egg)
             "ship" -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.laser)
         }
-
         Bubitmap = Bitmap.createScaledBitmap(Bubitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
