@@ -3,7 +3,7 @@ package com.example.infoproject
 import android.content.Context
 import android.graphics.RectF
 
-class Laser (context : Context, ScreenX : Float, ScreenY : Float,  ligne : Int) : Bullet (context, ScreenX, ScreenY, ligne, "ship") {
+class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bullet (context, ScreenX, ScreenY, ligne, "ship") {
 
     override var position =
         RectF(

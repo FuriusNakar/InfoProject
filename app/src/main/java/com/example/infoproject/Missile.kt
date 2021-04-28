@@ -1,12 +1,9 @@
 package com.example.infoproject
 
 import android.content.Context
-import android.graphics.Point
-import android.graphics.Rect
 import android.graphics.RectF
-import android.os.Bundle
 
-class Missile (context : Context, ScreenX : Float, ScreenY : Float,  ligne : Int, typemob : Any, pos_gauche : Float) : Bullet (context, ScreenX, ScreenY, ligne, typemob) {
+class Missile (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int, typemob : Any, pos_gauche : Float) : Bullet (context, ScreenX, ScreenY, ligne, typemob) {
 
     override var position =
         RectF(

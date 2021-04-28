@@ -20,8 +20,6 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
 
-
-
     //pos
     val position =
         RectF(
@@ -65,13 +63,6 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     fun degat(){
         vie -= 1
     }
-
-    fun shoot(){
-        val frequenceshoot : Random()
-        for (i in frequenceshoot.nextInt(1,3)){
-            enemy.shoot
-
-        }
 
 
     }
