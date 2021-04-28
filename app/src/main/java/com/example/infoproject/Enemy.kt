@@ -93,5 +93,3 @@ fun L(a : Int) : {
     //fction qui enregistre le hit du laser du vaisseau
 
 
-
-}

@@ -12,6 +12,7 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
 
     val largeur = ScreenY / 33f
     val hauteur = ScreenY / 33f
+    val frequenceshoot = arrayListOf<>(1,2,3,4)
 
     //pos
     open var position =
@@ -57,11 +58,20 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
         }
 
     }
-    fun shoot(){
-        val frequenceshoot : Random()
-        for (i in frequenceshoot.nextInt(1,3)){
+    fun shoot(string : String) {
+        //fction qui place les bullet avec un offset
+        val random = Random.nextInt()
+        when (string) {
+            "ship" -> position.offset(5f,0f)
 
+            else -> {
+            for (i in frequenceshoot[random]){
+                position.offset(-5f,0f)
+
+            }
+        }
 
         }
+    }
 
     }

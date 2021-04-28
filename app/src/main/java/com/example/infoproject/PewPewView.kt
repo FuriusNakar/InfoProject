@@ -29,8 +29,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
     //private val laser = Bullet(context,size.x,size.y,ligne, "ship")
-    private var missile = arrayListOf<>(Bullet)
-    private var laser = arrayListOf<>(Bullet)
+    private var missile = ArrayList<Bullet>()
+    private var laser = ArrayList<Bullet>()
 
     private var score = 0
     private var vie = 5
@@ -63,7 +63,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     }
 
-    override fun onClick(v: View?) {
+    override fun onClick(v: View?, m : Missile) {
         //fction qui agit lorsqu'on touche les boutons
         if (v != null) {
             when (v.id) {
@@ -72,7 +72,14 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
                 R.id.down_arrow -> ligne--
 
-                R.id.fire_button -> shipshoot
+                R.id.fire_button ->
+
+                    missile.add(Missile(context,size.x,size.y,ligne,"ship",ship.position.left))
+
+                    m.shoot("ship")
+
+
+
             }
         }
 
