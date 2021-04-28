@@ -42,7 +42,7 @@ abstract class JeuxActivity : AppCompatActivity(), View.OnClickListener {
         super.onResume()
 
         // Tell the gameView resume method to execute
-        PewPewView?.resume()
+        //PewPewView?.resume()
     }
 
     // This method executes when the player quits the game
@@ -50,6 +50,6 @@ abstract class JeuxActivity : AppCompatActivity(), View.OnClickListener {
         super.onPause()
 
         // Tell the gameView pause method to execute
-        PewPewView?.pause()
+        //PewPewView?.pause()
     }
     }

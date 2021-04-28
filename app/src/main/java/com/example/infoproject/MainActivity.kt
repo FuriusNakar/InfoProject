@@ -1,5 +1,7 @@
 package com.example.infoproject
 
+
+import android.media.MediaPlayer
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Point
@@ -14,6 +16,7 @@ import android.widget.ImageView
 import android.widget.Toast
 
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.start_screen.*
 
 
@@ -21,9 +24,10 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
     val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_rouge)
     val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
+    val vargur_list = intArrayOf(R.drawable.vargur_blue,R.drawable.vargur_green, R.drawable.vargur_red)
 
     //liste dans une liste, sur python c'était comme ca
-    val test_shiplist = arrayListOf(spaceship_list, xwing_list)
+    val test_shiplist = arrayListOf(spaceship_list, xwing_list,vargur_list)
 
 
 
@@ -33,6 +37,9 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     //val is_ship de base = list_ship[0]
     var id_ship = 0
     var couleur_id = 0
+
+    var campainMusic : MediaPlayer? = null
+    var grantedSound : MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +53,72 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
         //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
         start_button.setOnClickListener{
-            val jeux = Intent(this, JeuxActivity::class.java)
+            grantedSound = MediaPlayer.create(this, R.raw.access_granted_sound)
+            grantedSound!!.isLooping = false
+            grantedSound!!.start()
+            while (grantedSound!!.isPlaying) {
+                when (!grantedSound!!.isPlaying){
+                    false -> {
+                        setContentView(R.layout.activity_main)
+                    }
+                }
+            }
 
-            startActivity(jeux)
+
+
+            //val jeux = Intent(this, JeuxActivity::class.java)
+
+            //startActivity(jeux)
+
+
         }
         //Score_text à uptade avec pewpewview
 
+    }
+
+    // Play campainMusic and switch button
+    fun playSound(view: View) {
+        if (campainMusic == null) {
+            campainMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
+            campainMusic!!.isLooping = true
+            campainMusic!!.start()
+        } else campainMusic!!.start()
+        playButton.isClickable = false
+        playButton.alpha = 0f
+        stopButton.isClickable = true
+        stopButton.alpha = 0.5f
+    }
+
+    // Stop campainMusic and switch button
+    fun stopSound(view: View) {
+        if (campainMusic != null) {
+            campainMusic!!.stop()
+            campainMusic!!.release()
+            campainMusic = null
+        }
+        playButton.isClickable = true
+        playButton.alpha = 0.5f
+        stopButton.isClickable = false
+        stopButton.alpha = 0f
+    }
+
+    // Stops Music when the app is closed
+    override fun onStop() {
+        super.onStop()
+        if (campainMusic != null) {
+            campainMusic!!.release()
+            campainMusic = null
+        }
+    }
+
+    // Play campainMusic and switch button
+    var pewSound : MediaPlayer? = null
+    fun playPew(view: View) {
+        if (pewSound == null) {
+            pewSound = MediaPlayer.create(this, R.raw.pew)
+            pewSound!!.isLooping = false
+            pewSound!!.start()
+        } else pewSound!!.start()
     }
 
     override fun onClick(v: View?) {

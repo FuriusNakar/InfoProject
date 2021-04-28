@@ -38,7 +38,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
         lateinit var Ebitmap : Bitmap
 
         //var nbre_enemy = 0
-}
+    }
 
     //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
     init {
@@ -65,7 +65,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     }
 
 
-    }
+}
 /*          a laisser
 fun L(a : Int) : {
     var ligne = 0
@@ -91,7 +91,3 @@ fun L(a : Int) : {
 */
 
     //fction qui enregistre le hit du laser du vaisseau
-
-
-
-}

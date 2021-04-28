@@ -3,6 +3,7 @@ package com.example.infoproject
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.*
+import android.media.MediaPlayer
 import android.view.SurfaceView
 import android.util.Log
 import android.view.MotionEvent
@@ -20,7 +21,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private val typemob = arrayListOf<Int>(1, 2, 3)
 
     //private val ligne = arrayListOf<>(1,2,3,4,5,6)
-    private var ligne: Int
+    var ligne = 0
 
     //liste d'enemy + nombre qui spawn pour ensuite (contrainte pour Boss)
     private var enemies = ArrayList<Enemy>()
@@ -29,13 +30,12 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
     //private val laser = Bullet(context,size.x,size.y,ligne, "ship")
-    private var missile = arrayListOf<>(Bullet)
-    private var laser = arrayListOf<>(Bullet)
+    //private var missile = arrayListOf<>(Bullet)
+    //private var laser = arrayListOf<>(Bullet)
 
     private var score = 0
     private var vie = 5
     private var ligne_spawn = List(20) { Random.nextInt(2, 9) }
-
 
     fun spawn(f: Int) {
         //fction de spawn d'enemy en fction du type
@@ -63,6 +63,11 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     }
 
+
+    override fun run() {
+        TODO("Not yet implemented")
+    }
+    /*
     override fun onClick(v: View?) {
         //fction qui agit lorsqu'on touche les boutons
         if (v != null) {
@@ -72,11 +77,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
                 R.id.down_arrow -> ligne--
 
-                R.id.fire_button -> shipshoot
+                R.id.fire_button -> ShipGoesPew
+
             }
         }
-
     }
+
+     */
 }
 
 
