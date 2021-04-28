@@ -145,4 +145,27 @@
         app:layout_constraintStart_toStartOf="@+id/score_png"
         app:layout_constraintTop_toBottomOf="@+id/score_png" />
 
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:background="#00FFFFFF"
+        android:onClick="playSound"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
+
+    <ImageButton
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:background="#00FFFFFF"
+        android:foreground="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="stopSound"
+        app:layout_constraintStart_toStartOf="@+id/playButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

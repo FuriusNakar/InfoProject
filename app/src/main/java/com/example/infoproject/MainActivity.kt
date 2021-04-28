@@ -1,19 +1,9 @@
 package com.example.infoproject
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Point
+import android.media.MediaPlayer
 import android.os.Bundle
-
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.View
-
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
-
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.start_screen.*
 
 
@@ -35,26 +25,63 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.start_screen)
-
         previous_shiptype.setOnClickListener(this)
         next_shiptype.setOnClickListener(this)
         previous_shipcolor.setOnClickListener(this)
         next_shipcolor.setOnClickListener(this)
 
+
         //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
         start_button.setOnClickListener{
-            //val jeux = Intent(this, JeuxActivity::class.java)
+            setContentView(R.layout.activity_main)
 
+            //val jeux = Intent(this, JeuxActivity::class.java)
             //startActivity(jeux)
         }
         //Score_text à uptade avec pewpewview
 
     }
 
+    var campagneMediaPlayer: MediaPlayer? = null
+
+    // Play Music and switch buttons
+    fun playSound(view: View) {
+        if (campagneMediaPlayer == null) {
+            campagneMediaPlayer = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
+            campagneMediaPlayer!!.isLooping = true
+            campagneMediaPlayer!!.start()
+        } else campagneMediaPlayer!!.start()
+        playButton.alpha = 0f
+        playButton.isClickable = false
+        stopButton.alpha = 0.5f
+        stopButton.isClickable = true
+    }
+
+    // Stop Music and switch buttons
+    fun stopSound(view: View) {
+        if (campagneMediaPlayer != null) {
+            campagneMediaPlayer!!.stop()
+            campagneMediaPlayer!!.release()
+            campagneMediaPlayer = null
+        }
+        playButton.alpha = 0.5f
+        playButton.isClickable = true
+        stopButton.alpha = 0f
+        stopButton.isClickable = false
+    }
+
+    // Stop music when the app is closed
+    override fun onStop() {
+        super.onStop()
+        if (campagneMediaPlayer != null) {
+            campagneMediaPlayer!!.release()
+            campagneMediaPlayer = null
+        }
+    }
+
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id){
-
                 R.id.previous_shiptype ->
                     if (id_ship == 0){
                         id_ship = test_shiplist.size - 1
@@ -93,7 +120,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
                     }
 
 
-
                 R.id.next_shipcolor ->
                     if (couleur_id == list_color.size - 1){
                         couleur_id = 0
@@ -107,13 +133,9 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
                         color_png.colorFilter = null
                     }
-
-
             }
         }
-
     }
-
 }
 
 
