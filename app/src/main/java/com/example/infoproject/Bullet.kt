@@ -4,16 +4,17 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
+import kotlin.random.Random
 
-open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, val ligne : Int, val typemob : Any) {
+open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val ligne: Int, val typemob: Any) {
     //booleen qui sert pour check si le bullet est vivant ou non --> trash collector
     var visible = true
 
-    private val largeur = ScreenY / 33f
+    val largeur = ScreenY / 33f
     val hauteur = ScreenY / 33f
 
     //pos
-    val position =
+    open var position =
         RectF(
             ScreenX - largeur - 0f,
             ScreenY * ligne / 11f - hauteur / 2,
@@ -31,19 +32,16 @@ open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, 
     }
 
     init {
-
         when (typemob) {
             1 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.slime)
             2 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.fire)
             3 -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.egg)
             "ship" -> Bubitmap = BitmapFactory.decodeResource(context.resources, R.drawable.laser)
         }
-
         Bubitmap = Bitmap.createScaledBitmap(Bubitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
-    open fun update(
-        fps: Long, typemob: Any, enemies: ArrayList<Enemy>,
+    open fun update(fps: Long, typemob: Any, enemies: ArrayList<Enemy>,
         missiles: ArrayList<Missile>, ship: Ship
     ) {
         if (typemob == "ship") {
@@ -59,4 +57,11 @@ open class Bullet (context : Context, val ScreenX : Float, val ScreenY : Float, 
         }
 
     }
-}
+    fun shoot(){
+        val frequenceshoot : Random()
+        for (i in frequenceshoot.nextInt(1,3)){
+
+
+        }
+
+    }

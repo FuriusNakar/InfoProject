@@ -6,132 +6,83 @@ import android.graphics.*
 import android.view.SurfaceView
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import kotlin.random.Random
 
-class PewPewView(context: Context,
-                         private val size: Point)
-    : SurfaceView(context),
+class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
     Runnable {
 
-    // This is our thread
-    private val gameThread = Thread(this)
+    private val jeuxThread = Thread(this)
+    private val playing = false
+    private val pause = true
+    private val canvas = Canvas()
+    private var ship = Ship(context, size.x, size.y)
+    private val typemob = arrayListOf<Int>(1, 2, 3)
 
-    // A boolean which we will set and unset
-    private var playing = false
+    //private val ligne = arrayListOf<>(1,2,3,4,5,6)
+    private var ligne: Int
 
-    // Game is paused at the start
-    private var paused = true
+    //liste d'enemy + nombre qui spawn pour ensuite (contrainte pour Boss)
+    private var enemies = ArrayList<Enemy>()
+    private var nbre_enemies = 0
 
-    // A Canvas and a Paint object
-    private var canvas: Canvas = Canvas()
-    private val paint: Paint = Paint()
+    //val des bullet
+    //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
+    //private val laser = Bullet(context,size.x,size.y,ligne, "ship")
+    private var missile = arrayListOf<>(Bullet)
+    private var laser = arrayListOf<>(Bullet)
 
-    // The score
     private var score = 0
-
-    // The wave number
-    private var waves = 1
-
-    // Lives
-    private var lives = 3
-
-    private var highScore =  0
-
-    // How menacing should the sound be?
-    private var menaceInterval: Long = 1000
-
-    // Which menace sound should play next
-    private var uhOrOh: Boolean = false
-    // When did we last play a menacing sound
-    private var lastMenaceTime = System.currentTimeMillis()
+    private var vie = 5
+    private var ligne_spawn = List(20) { Random.nextInt(2, 9) }
 
 
-    private fun prepareLevel() {
-        // Here we will initialize the game objects
-
-
-    }
-
-    override fun run() {
-        // This variable tracks the game frame rate
-        var fps: Long = 0
-
-        while (playing) {
-
-            // Capture the current time
-            val startFrameTime = System.currentTimeMillis()
-
-            // Update the frame
-            if (!paused) {
-                update(fps)
+    fun spawn(f: Int) {
+        //fction de spawn d'enemy en fction du type
+        when (typemob[f]) {
+            1 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
+                nbre_enemies++
             }
+            2 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
+                nbre_enemies++
+            }
+            3 -> for (i in ligne_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
+                nbre_enemies++
 
-            // Draw the frame
-            draw()
 
-            // Calculate the fps rate this frame
-            val timeThisFrame = System.currentTimeMillis() - startFrameTime
-            if (timeThisFrame >= 1) {
-                fps = 1000 / timeThisFrame
             }
         }
     }
 
-    private fun update(fps: Long) {
-        // Update the state of all the game objects
+    private fun draw(){
+        //fction responsable du dessiner les bitmaps sur imageview
+
 
     }
 
-    private fun draw() {
-        // Make sure our drawing surface is valid or the game will crash
-        if (holder.surface.isValid) {
-            // Lock the canvas ready to draw
-            canvas = holder.lockCanvas()
+    override fun onClick(v: View?) {
+        //fction qui agit lorsqu'on touche les boutons
+        if (v != null) {
+            when (v.id) {
 
-            // Draw the background color
-            canvas.drawColor(Color.argb(255, 0, 0, 0))
+                R.id.up_arrow -> ligne++
 
-            // Choose the brush color for drawing
-            paint.color = Color.argb(255, 0, 255, 0)
+                R.id.down_arrow -> ligne--
 
-            // Draw all the game objects here
-
-            // Draw the score and remaining lives
-            // Change the brush color
-            paint.color = Color.argb(255, 255, 255, 255)
-            paint.textSize = 70f
-            canvas.drawText("Score: $score   Lives: $lives Wave: " +
-                    "$waves HI: $highScore", 20f, 75f, paint)
-
-
-            // Draw everything to the screen
-            holder.unlockCanvasAndPost(canvas)
+                R.id.fire_button -> shipshoot
+            }
         }
+
     }
-
-    // If SpaceInvadersActivity is paused/stopped
-    // then shut down our thread.
-    fun pause() {
-        playing = false
-        try {
-            gameThread.join()
-        } catch (e: InterruptedException) {
-            Log.e("Error:", "joining thread")
-        }
-    }
-
-    // If SpaceInvadersActivity is started then
-    // start our thread.
-    fun resume() {
-        playing = true
-        prepareLevel()
-        gameThread.start()
-    }
-
-    // The SurfaceView class implements onTouchListener
-    // So we can override this method and detect screen touches.
-    override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
-
-        return true
-    }
-
 }
+
+
+
+
+
+
+
+

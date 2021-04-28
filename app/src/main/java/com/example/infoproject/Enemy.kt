@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.RectF
 import kotlin.random.Random
 
-class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val typemob : Int, val ligne : Int) {
+class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemob : Int, val ligne : Int) {
     //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
     // ligne sert pour le spawn (random)
     // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
@@ -19,7 +19,6 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
 
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
-
 
     //pos
     val position =
@@ -53,11 +52,19 @@ class Enemy (context : Context, val ScreenX : Float, val ScreenY : Float, val ty
         Ebitmap = Bitmap.createScaledBitmap(Ebitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
-    fun update(fps : Long){
-        if (position.left > 0){
-            position.left -= SPEEEEED/fps
+    fun update(fps : Long) {
+        while (vie > 0) {
+            if (position.left > 0) {
+                position.left -= SPEEEEED / fps
+            }
+            position.right = position.left + largeur
         }
-        position.right = position.left + largeur
+    }
+    fun degat(){
+        vie -= 1
+    }
+
+
     }
 /*          a laisser
 fun L(a : Int) : {
@@ -84,9 +91,7 @@ fun L(a : Int) : {
 */
 
     //fction qui enregistre le hit du laser du vaisseau
-    fun degat(){
-        vie -= 1
-    }
+
 
 
 }
