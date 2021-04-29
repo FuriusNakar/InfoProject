@@ -105,13 +105,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             }
 
             if (ship.vie > 0){
-                var finali = 0
+                var final_i = 0
                 for (i in 0 until ship.vie){
                     canvas.drawBitmap(hpBitmap,5f + i*size.y.toFloat()/11,5f,null)
-                    finali++
+                    final_i++
                 }
                 if (ship.shield == 1) {
-                    canvas.drawBitmap(shieldBitmap,5f + finali*size.y.toFloat()/11,5f,null)
+                    canvas.drawBitmap(shieldBitmap,5f + final_i*size.y.toFloat()/11,5f,null)
                 }
             }
             // Now draw the player spaceship
