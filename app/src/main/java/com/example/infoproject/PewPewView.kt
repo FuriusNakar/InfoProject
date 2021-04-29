@@ -12,16 +12,18 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import kotlinx.android.synthetic.main.activity_main.*
+import android.view.SurfaceHolder;
 
-class PewPewView(context: Context, private val size: Point) : View(context),
+class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
     Runnable {
 
+
     private val jeuxThread = Thread(this)
-    private val playing = false
-    private val pause = true
-    private val canvas = Canvas()
+    private var playing = false
+    private var pause = true
     private var ship = Ship(context, size.x, size.y)
-    private val typemob = arrayListOf<Int>(1, 2, 3)
+    private val typemob = 1
+    private var canvas: Canvas = Canvas()
 
 
     companion object{
@@ -48,7 +50,7 @@ class PewPewView(context: Context, private val size: Point) : View(context),
         val nbr_ennemis_spawnné = ligne_spawn[0] - 1
 
         //fction de spawn d'enemy en fction du type
-        when (typemob[f]) {
+        when (typemob) {
             1 -> for (i in 0..nbr_ennemis_spawnné) {
                 enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
                 nbre_enemies++
@@ -66,13 +68,53 @@ class PewPewView(context: Context, private val size: Point) : View(context),
         }
     }
 
+    var BackgroundNumber = 0
+    val Backgroundlist = intArrayOf(R.drawable.barren_planet,R.drawable.lava_planet,R.drawable.temperate_planet)
+
     private fun draw(){
         //fction responsable du dessiner les bitmaps sur imageview
+        if (holder.surface.isValid) {
+            var Screenbitmap: Bitmap = BitmapFactory.decodeResource(context.resources,Backgroundlist[BackgroundNumber])
 
+            Screenbitmap = Bitmap.createScaledBitmap(Screenbitmap, size.x, size.y, false)
+            // Lock the canvas ready to draw
+            canvas = holder.lockCanvas()
 
+            // Draw the background color
+            canvas.drawBitmap(Screenbitmap,0f,0f,null)
+
+            // Draw all the game objects here
+            // Now draw the player spaceship
+            canvas.drawBitmap(ship.Vbitmap, ship.position.left,
+                ship.position.top,null)
+
+            holder.unlockCanvasAndPost(canvas)
+
+        }
     }
 
-    override fun run() {}
+    fun pause() {
+        playing = false
+        try {
+            jeuxThread.join()
+        } catch (e: InterruptedException) {
+            Log.e("Error:", "joining thread")
+        }
+    }
+
+    // If SpaceInvadersActivity is started then
+    // start our thread.
+    fun resume() {
+        playing = true
+        jeuxThread.start()
+    }
+
+
+    override fun run() {
+        while (playing){
+            draw()
+        }
+    }
 
 
 }

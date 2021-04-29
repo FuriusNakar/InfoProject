@@ -2,11 +2,13 @@ package com.example.infoproject
 
 
 import android.content.Intent
+import android.graphics.Point
 import android.media.MediaPlayer
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.core.graphics.drawable.toDrawable
 import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.start_screen.*
@@ -30,6 +32,14 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     var id_ship = 0
     var couleur_id = 0
 
+    companion object{
+        var Vso = 0
+    }
+
+    init {
+        Vso = test_shiplist[0][0]
+    }
+
     var campainMusic : MediaPlayer? = null
     var grantedSound : MediaPlayer? = null
 
@@ -50,10 +60,27 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             grantedSound!!.start()
             while (grantedSound!!.isPlaying) {}
 
-            val jeux = Intent(this, JeuxActivity::class.java)
+            //val jeux = Intent(this, JeuxActivity::class.java)     PU BESW1
 
-            startActivity(jeux)
+            //startActivity(jeux)     PU BESW1
 
+            // Get a Display object to access screen details
+            val display = windowManager.defaultDisplay
+            // Load the resolution into a Point object
+            val size = Point()
+            display.getSize(size)
+
+            setContentView(R.layout.activity_main)
+
+            fire_button.setOnClickListener(this)
+            up_arrow.setOnClickListener(this)
+            down_arrow.setOnClickListener(this)
+
+            // Initialize gameView and set it as the view
+            val PewPewView = PewPewView(this, size)
+            setContentView(PewPewView)
+
+            PewPewView.resume()
 
 
 
@@ -66,6 +93,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         //Score_text à uptade avec pewpewview
 
     }
+
 
     // Play campainMusic and switch button
     fun playSound(view: View) {
@@ -102,19 +130,35 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    var pewSound : MediaPlayer? = null
+    fun pewSound () {
+        if (pewSound == null) {
+            pewSound = MediaPlayer.create(this, R.raw.pew)
+            pewSound!!.isLooping = false
+            pewSound!!.start()
+        } else pewSound!!.start()
+    }
+
+
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id){
+
+                R.id.fire_button -> {
+                    pewSound()
+                }
 
                 R.id.previous_shiptype ->
                     if (id_ship == 0){
                         id_ship = test_shiplist.size - 1
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
                         ship_png.colorFilter = null
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
                     else {
                         id_ship --
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
 
 
@@ -123,10 +167,12 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
                         id_ship = 0
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
                         ship_png.colorFilter = null
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
                     else {
                         id_ship ++
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
 
 
@@ -136,11 +182,13 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
                         color_png.setImageResource(list_color[couleur_id])
                         color_png.colorFilter = null
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
                     else {
                         couleur_id --
                         color_png.setImageResource(list_color[couleur_id])
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
 
 
@@ -151,12 +199,14 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
                         color_png.setImageResource(list_color[couleur_id])
                         color_png.colorFilter = null
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
                     else {
                         couleur_id ++
                         color_png.setImageResource(list_color[couleur_id])
                         ship_png.setImageResource(test_shiplist[id_ship][couleur_id])
                         color_png.colorFilter = null
+                        Vso = test_shiplist[id_ship][couleur_id]
                     }
 
 

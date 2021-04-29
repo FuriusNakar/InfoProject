@@ -4,7 +4,7 @@ import android.graphics.RectF
 import android.graphics.Bitmap
 import android.content.Context
 import android.graphics.BitmapFactory
-
+import com.example.infoproject.PewPewActivity.Companion.Vso
 
 
 class Ship (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
@@ -13,7 +13,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     // transfore image du ship en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
     var Vbitmap: Bitmap =
-        BitmapFactory.decodeResource(context.resources, R.drawable.playership) //herédité de Bitmap
+        BitmapFactory.decodeResource(context.resources, Vso) //herédité de Bitmap
     //mettre emplacement du ship choisi
     // faire programme qui choisit le ship au début du lancement et puis link l'emplacement du fichier à ici
     // style : startscreen.typeship("sortie/id du ship choisi")
