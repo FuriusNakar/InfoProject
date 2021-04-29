@@ -33,12 +33,9 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     private val SPEEEEED = 50f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
-    companion object{
 
-        lateinit var Ebitmap : Bitmap
+    lateinit var Ebitmap : Bitmap
 
-        //var nbre_enemy = 0
-    }
 
     //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
     init {

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.content.Context
 import android.graphics.BitmapFactory
 import com.example.infoproject.PewPewActivity.Companion.Vso
+import com.example.infoproject.PewPewView.Companion.shipligne
 
 
 class Ship (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
@@ -19,6 +20,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     // style : startscreen.typeship("sortie/id du ship choisi")
 
     var vie = 5
+    var shield = 1
 
     //redimensionnement
     private val largeur = ScreenY / 11f
@@ -26,20 +28,14 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
 
     //pos
     var position =
-        RectF(20f, ScreenY / 2f - hauteur / 2f, 20f + largeur, ScreenY / 2f + hauteur / 2f)
+        RectF(20f, 6f * ScreenY / 11f - hauteur / 2f, 20f + largeur, 6* ScreenY / 11f + hauteur / 2f)
 
     //SPEEEEEED
     //private val SPEEEEED = 500000000f   //rapido bb
 
-    // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
-    companion object {
-        // haut, bas, stop
-        const val stop = 0
-        const val haut = 1
-        const val bas = 2
-    }
     //vaisseau bouge pas
-    var bouge = stop
+
+
 
     //redimenssionnement du vaisseau sur le convas qu'on a
     init{Vbitmap = Bitmap.createScaledBitmap(Vbitmap, largeur.toInt(), hauteur.toInt(), false)}
@@ -47,21 +43,27 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
 
     //function qui s'occupe du mouvement
     //ici la fonction est adaptée à notre cas (mouvement vertical et non horizontal)
-    fun update(fps: Long) {     //type long = 64bit d'info donc précis
-        // Move as long as it doesn't try and leave the screen
-        while (vie > 0) {
-            if (bouge == haut && position.top > 2f / 11f * ScreenY - hauteur / 2f) {
+    fun bouge (direction : Int) {
+        // Can move as long as it doesn't try and leave the screen
+        var bouge = direction
+        if (vie > 0) {
+            if (bouge == 1 && position.top > 2f / 11f * ScreenY) {
                 position.top -= hauteur
-            } else if (bouge == bas && position.bottom < 9f / 11f * ScreenY + hauteur / 2f) {
+                shipligne--
+            } else if (bouge == -1 && position.bottom < 8f / 11f * ScreenY) {
                 position.top += hauteur
+                shipligne++
             }
-            bouge = stop
             position.bottom = position.top + hauteur
         }
     }
 
     fun degat(){
-        vie -= 1
+        if (shield == 1) {
+            shield--
+        } else {
+            vie--
+        }
     }
 
 

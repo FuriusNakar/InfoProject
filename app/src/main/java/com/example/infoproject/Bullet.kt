@@ -26,10 +26,8 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
     private val SPEEEEED = 100f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
-    companion object {
 
-        lateinit var Bubitmap: Bitmap
-    }
+    lateinit var Bubitmap: Bitmap
 
     init {
         when (typemob) {

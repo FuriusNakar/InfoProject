@@ -123,18 +123,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    /* Sera intégré dans PewPewView
-    var pewSound : MediaPlayer? = null
-    fun pewSound () {
-        if (pewSound == null) {
-            pewSound = MediaPlayer.create(this, R.raw.pew)
-            pewSound!!.isLooping = false
-            pewSound!!.start()
-        } else pewSound!!.start()
-    }
-     */
-
-
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id){
