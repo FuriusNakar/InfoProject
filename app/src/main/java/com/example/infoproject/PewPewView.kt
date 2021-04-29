@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
-import kotlinx.android.synthetic.main.activity_main.*
 import android.view.SurfaceHolder;
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),

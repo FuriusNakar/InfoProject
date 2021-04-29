@@ -9,7 +9,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import androidx.core.graphics.drawable.toDrawable
-import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.start_screen.*
 
@@ -70,12 +69,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             val size = Point()
             display.getSize(size)
 
-            setContentView(R.layout.activity_main)
-
-            fire_button.setOnClickListener(this)
-            up_arrow.setOnClickListener(this)
-            down_arrow.setOnClickListener(this)
-
             // Initialize gameView and set it as the view
             val PewPewView = PewPewView(this, size)
             setContentView(PewPewView)
@@ -130,6 +123,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /* Sera intégré dans PewPewView
     var pewSound : MediaPlayer? = null
     fun pewSound () {
         if (pewSound == null) {
@@ -138,16 +132,12 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             pewSound!!.start()
         } else pewSound!!.start()
     }
+     */
 
 
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id){
-
-                R.id.fire_button -> {
-                    pewSound()
-                }
-
                 R.id.previous_shiptype ->
                     if (id_ship == 0){
                         id_ship = test_shiplist.size - 1
