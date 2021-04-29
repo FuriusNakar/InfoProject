@@ -1,28 +1,20 @@
 package com.example.infoproject
 
 
-import android.media.MediaPlayer
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Point
+import android.media.MediaPlayer
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
 import android.view.View
-
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
-
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
+
 import kotlinx.android.synthetic.main.start_screen.*
 
 
 class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
-    val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_rouge)
+    val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_red)
     val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
     val vargur_list = intArrayOf(R.drawable.vargur_blue,R.drawable.vargur_green, R.drawable.vargur_red)
 
@@ -56,19 +48,18 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             grantedSound = MediaPlayer.create(this, R.raw.access_granted_sound)
             grantedSound!!.isLooping = false
             grantedSound!!.start()
-            while (grantedSound!!.isPlaying) {
-                when (!grantedSound!!.isPlaying){
-                    false -> {
-                        setContentView(R.layout.activity_main)
-                    }
-                }
-            }
+            while (grantedSound!!.isPlaying) {}
+
+            val jeux = Intent(this, JeuxActivity::class.java)
+
+            startActivity(jeux)
 
 
 
-            //val jeux = Intent(this, JeuxActivity::class.java)
 
-            //startActivity(jeux)
+
+
+
 
 
         }
@@ -109,16 +100,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             campainMusic!!.release()
             campainMusic = null
         }
-    }
-
-    // Play campainMusic and switch button
-    var pewSound : MediaPlayer? = null
-    fun playPew(view: View) {
-        if (pewSound == null) {
-            pewSound = MediaPlayer.create(this, R.raw.pew)
-            pewSound!!.isLooping = false
-            pewSound!!.start()
-        } else pewSound!!.start()
     }
 
     override fun onClick(v: View?) {

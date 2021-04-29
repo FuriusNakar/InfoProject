@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/lava_planet"
-    tools:context=".PewPewActivity"
+    tools:context=".JeuxActivity"
     >
 
     <Button
@@ -42,7 +42,6 @@
         android:layout_marginBottom="20dp"
         android:background="@android:drawable/editbox_dropdown_dark_frame"
         android:foreground="@drawable/fire_button"
-        android:onClick="playPew"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

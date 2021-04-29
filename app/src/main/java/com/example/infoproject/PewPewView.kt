@@ -4,13 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.*
 import android.media.MediaPlayer
+import android.os.Bundle
 import android.view.SurfaceView
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
+import kotlinx.android.synthetic.main.activity_main.*
 
-class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
+class PewPewView(context: Context, private val size: Point) : View(context),
     Runnable {
 
     private val jeuxThread = Thread(this)
@@ -20,12 +23,16 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var ship = Ship(context, size.x, size.y)
     private val typemob = arrayListOf<Int>(1, 2, 3)
 
-    //private val ligne = arrayListOf<>(1,2,3,4,5,6)
-    var ligne = 0
+
+    companion object{
+        var ligne = 6
+    }
+
 
     //liste d'enemy + nombre qui spawn pour ensuite (contrainte pour Boss)
     private var enemies = ArrayList<Enemy>()
     private var nbre_enemies = 0
+    private var lasers = ArrayList<Laser>()
 
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
@@ -35,20 +42,22 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     private var score = 0
     private var vie = 5
-    private var ligne_spawn = List(20) { Random.nextInt(2, 9) }
 
     fun spawn(f: Int) {
+        val ligne_spawn = List(8) { Random.nextInt(2, 9) }
+        val nbr_ennemis_spawnné = ligne_spawn[0] - 1
+
         //fction de spawn d'enemy en fction du type
         when (typemob[f]) {
-            1 -> for (i in ligne_spawn) {
+            1 -> for (i in 0..nbr_ennemis_spawnné) {
                 enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
                 nbre_enemies++
             }
-            2 -> for (i in ligne_spawn) {
+            2 -> for (i in 0..nbr_ennemis_spawnné) {
                 enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
                 nbre_enemies++
             }
-            3 -> for (i in ligne_spawn) {
+            3 -> for (i in 0..nbr_ennemis_spawnné) {
                 enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
                 nbre_enemies++
 
@@ -63,27 +72,9 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     }
 
+    override fun run() {}
 
-    override fun run() {
-        TODO("Not yet implemented")
-    }
-    /*
-    override fun onClick(v: View?) {
-        //fction qui agit lorsqu'on touche les boutons
-        if (v != null) {
-            when (v.id) {
 
-                R.id.up_arrow -> ligne++
-
-                R.id.down_arrow -> ligne--
-
-                R.id.fire_button -> ShipGoesPew
-
-            }
-        }
-    }
-
-     */
 }
 
 

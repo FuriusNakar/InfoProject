@@ -3,6 +3,7 @@ package com.example.infoproject
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Point
+import android.media.MediaPlayer
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
@@ -14,26 +15,30 @@ import android.widget.ImageView
 import android.widget.Toast
 
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.start_screen.*
 
 
-abstract class JeuxActivity : AppCompatActivity(), View.OnClickListener {
-
-
+class JeuxActivity : AppCompatActivity() , View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Get a Display object to access screen details
-        val display = windowManager.defaultDisplay
+        //val display = windowManager.defaultDisplay
         // Load the resolution into a Point object
-        val size = Point()
-        display.getSize(size)
+        //val size = Point()
+        //display.getSize(size)
+
+        setContentView(R.layout.activity_main)
+
+        fire_button.setOnClickListener(this)
+        up_arrow.setOnClickListener(this)
+        down_arrow.setOnClickListener(this)
 
         // Initialize gameView and set it as the view
-        val PewPewView = PewPewView(this, size)
-        setContentView(PewPewView)
-
+        //val PewPewView = PewPewView(this, size)
+        //setContentView(PewPewView)
     }
 
 
@@ -52,4 +57,28 @@ abstract class JeuxActivity : AppCompatActivity(), View.OnClickListener {
         // Tell the gameView pause method to execute
         //PewPewView?.pause()
     }
+    // Goes Pew
+    var pewSound : MediaPlayer? = null
+    fun pewSound () {
+        if (pewSound == null) {
+            pewSound = MediaPlayer.create(this, R.raw.pew)
+            pewSound!!.isLooping = false
+            pewSound!!.start()
+        } else pewSound!!.start()
     }
+
+    override fun onClick(v: View?) {
+        if (v != null) {
+            when (v.id){
+                //R.id.up_arrow -> PewPewView.ligne--
+
+                //R.id.down_arrow -> PewPewView.ligne++
+
+                R.id.fire_button -> {
+                    pewSound()
+                }
+            }
+        }
+    }
+}
+
