@@ -23,9 +23,9 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     //pos
     val position =
         RectF(
-            ScreenX - largeur - 0f,
-            ScreenY * ligne / 11f - hauteur/2,
             ScreenX - 0f,
+            ScreenY * ligne / 11f - hauteur/2,
+            ScreenX - largeur - 0f,
             ScreenY * ligne / 11f + hauteur/2
         )
 
@@ -38,6 +38,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
 
 
     //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
+    var points = 50
     init {
 
             when (typemob){
@@ -50,11 +51,20 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     }
 
     fun update(fps : Long) {
-        while (vie > 0) {
-            if (position.left > 0) {
+        if (vie > 0) {
+            if (position.right > 0) {
                 position.left -= SPEEEEED / fps
-            } else {vie = 0}
-            position.right = position.left + largeur
+                position.right = position.left + largeur
+            } else if(position.right <= 0){
+                points = 0
+                vie = 0
+                visible = false
+            }
+
+
+        }
+        else {
+            visible = false
         }
     }
     fun degat(){

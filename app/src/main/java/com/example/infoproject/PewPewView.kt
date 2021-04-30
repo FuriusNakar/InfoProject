@@ -25,8 +25,9 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     var jeuxThread = Thread(this)
     var playing = false
+    private var paused = false
     private var ship = Ship(context, size.x, size.y)
-    private val typemob = 1
+    private var typemob = 1
     private var canvas: Canvas = Canvas()
     private val paint: Paint = Paint()
 
@@ -34,6 +35,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var enemies = ArrayList<Enemy>()
     private var nbre_enemies = 0
     private var lasers = ArrayList<Laser>()
+    private var missiles = ArrayList<Missile>()
 
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
@@ -159,13 +161,81 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         jeuxThread.start()
     }
 
+    var typemobMulti = 0
 
     override fun run() {
+        var fps: Long = 1
         while (playing){
-            draw()
-            if (enemies.isEmpty()){
-                spawn()
+            // Capture the current time
+            val startFrameTime = System.currentTimeMillis()
+
+            // Update the frame
+            if (!paused) {
+                update(fps)
+                trashCollector()
             }
+
+            if (typemob == 1 && score >= 500 + 1500*typemobMulti){
+                typemob++
+                BackgroundNumber++
+            }
+            if (typemob ==2 && score >= 1000 + 1500*typemobMulti){
+                typemob++
+                BackgroundNumber++
+            }
+            if (typemob == 3 && score >= 1500 + 1500*typemobMulti){
+                typemob = 1
+                BackgroundNumber = 0
+                typemobMulti++
+            }
+
+            draw()
+
+            // Calculate the fps rate this frame
+            val timeThisFrame = System.currentTimeMillis() - startFrameTime
+            if(timeThisFrame >= 1) {fps = 1000 / timeThisFrame}
+
+        }
+    }
+
+    fun trashCollector(){
+
+        var laserSafeRemove = lasers.toMutableList()
+        for (laser in lasers) {
+            if(!laser.visible){
+                laserSafeRemove.remove(laser)
+            }
+        }
+        lasers = laserSafeRemove as ArrayList<Laser>
+
+        if(laserSafeAdd.isNotEmpty()){
+            for(laser in laserSafeAdd){
+                lasers.add(laser)
+            }
+            laserSafeAdd.clear()
+        }
+
+
+        var enemySafeRemove = enemies.toMutableList()
+        for (enemy in enemies) {
+            if(!enemy.visible){
+                score += enemy.points
+                enemySafeRemove.remove(enemy)
+            }
+        }
+        enemies = enemySafeRemove as ArrayList<Enemy>
+    }
+
+    fun update(fps : Long) {
+        if (enemies.isEmpty()||enemies[enemies.size-1].position.right < 2f*size.x/3f){
+            spawn()
+        }
+
+        for (enemy in enemies) {
+            enemy.update(fps)
+        }
+        for (laser in lasers) {
+            laser.update(fps,"ship",enemies,missiles,ship)
         }
     }
 
@@ -192,6 +262,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
+    val laserSafeAdd = ArrayList<Laser>()
+
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
         val motionArea = size.y - (2 * size.y / 11)
         when (motionEvent.action and MotionEvent.ACTION_MASK) {
@@ -211,7 +283,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                     } else if (motionEvent.x > size.x - 2*size.y/11 - 20f && motionEvent.x < size.x - 20f) {
                         pewSound()
                         clic = false
-                        lasers.add(Laser(context,size.x,size.y, shipligne))
+                        laserSafeAdd.add(Laser(context,size.x,size.y, shipligne))
                     }
                 }
             }
