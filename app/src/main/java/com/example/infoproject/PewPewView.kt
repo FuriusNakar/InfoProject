@@ -20,6 +20,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     companion object{
         var shipligne = 6
+        var score = 0
     }
 
     var jeuxThread = Thread(this)
@@ -27,6 +28,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var ship = Ship(context, size.x, size.y)
     private val typemob = 1
     private var canvas: Canvas = Canvas()
+    private val paint: Paint = Paint()
 
     //liste d'enemy + nombre qui spawn pour ensuite (contrainte pour Boss)
     private var enemies = ArrayList<Enemy>()
@@ -38,8 +40,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     //private val laser = Bullet(context,size.x,size.y,ligne, "ship")
     //private var missile = arrayListOf<>(Bullet)
     //private var laser = arrayListOf<>(Bullet)
-
-    private var score = 0
 
     fun spawn() {
         val ligne_spawn = arrayListOf<Int>()
@@ -143,6 +143,11 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             canvas.drawBitmap(upBitmap,20f,size.y.toFloat() - (2 * size.y / 11),null)
             canvas.drawBitmap(downBitmap,2*size.y.toFloat() /11 + 20f,size.y.toFloat() - (2 * size.y / 11),null)
             canvas.drawBitmap(pewBitmap,size.x.toFloat() - 2*size.y/11 - 20f,size.y.toFloat() - (2 * size.y / 11),null)
+
+            // Draw the score
+            paint.color = Color.argb(255, 255, 255, 255)
+            paint.textSize = 50f
+            canvas.drawText("Score: $score", 8.2f*size.x.toFloat()/10f, 75f, paint)
 
             holder.unlockCanvasAndPost(canvas)
 
