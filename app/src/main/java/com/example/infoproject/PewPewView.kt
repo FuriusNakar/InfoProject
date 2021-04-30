@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import android.view.SurfaceHolder;
 import com.example.infoproject.PewPewActivity.Companion.bossMusic
-import com.example.infoproject.PewPewActivity.Companion.campainMusic
+import com.example.infoproject.PewPewActivity.Companion.campaignMusic
 import kotlin.random.nextInt
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
@@ -169,7 +169,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     override fun run() {
         var fps: Long = 1
-        if (campainMusic != null){isMusicOn = true}
+        if (campaignMusic != null){isMusicOn = true}
         while (playing){
             // Capture the current time
             val startFrameTime = System.currentTimeMillis()
@@ -184,32 +184,26 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 typemob++
                 BackgroundNumber++
                 if (isMusicOn){
-                    campainMusic!!.stop()
+                    campaignMusic!!.stop()
                     bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
                     bossMusic!!.isLooping = true
                     bossMusic!!.start()
                 }
             }
-            if (typemob ==2 && score >= 1000 + 1500*typemobMulti){
+            if (typemob == 2 && score >= 1000 + 1500*typemobMulti){
                 typemob++
                 BackgroundNumber++
                 if (isMusicOn) {
                     bossMusic!!.stop()
-                    campainMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
-                    campainMusic!!.isLooping = true
-                    campainMusic!!.start()
+                    campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
+                    campaignMusic!!.isLooping = true
+                    campaignMusic!!.start()
                 }
             }
             if (typemob == 3 && score >= 1500 + 1500*typemobMulti){
                 typemob = 1
                 BackgroundNumber = 0
                 typemobMulti++
-                if (isMusicOn) {
-                    campainMusic!!.stop()
-                    bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
-                    bossMusic!!.isLooping = true
-                    bossMusic!!.start()
-                }
             }
 
             draw()
@@ -230,14 +224,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
         lasers = laserSafeRemove as ArrayList<Laser>
 
-        if(laserSafeAdd.isNotEmpty()){
-            for(laser in laserSafeAdd){
-                lasers.add(laser)
-            }
-            laserSafeAdd.clear()
-        }
-
-
         var enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
             if(!enemy.visible){
@@ -251,6 +237,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     fun update(fps : Long) {
         if (enemies.isEmpty()||enemies[enemies.size-1].position.right < 3f*size.x/4f){
             spawn()
+        }
+
+        if(laserSafeAdd.isNotEmpty()){
+            for(laser in laserSafeAdd){
+                lasers.add(laser)
+            }
+            laserSafeAdd.clear()
         }
 
         for (enemy in enemies) {
@@ -308,11 +301,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                         newPewTime = System.currentTimeMillis()
                         if (newPewTime - lastPewTime >= 600){
                             lastPewTime = newPewTime
-                            if (pewSound != null){
-                                if (pewSound!!.isPlaying){
-                                    pewSound!!.pause()
-                                }
-                            }
                             pewSound()
                             clic = false
 

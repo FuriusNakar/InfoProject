@@ -64,7 +64,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
                 position.left -= SPEEEEED / fps
                 position.right = position.left + largeur
             } else if(position.right <= 0){
-                points = 0
+                points = -points
                 vie = 0
                 visible = false
             }

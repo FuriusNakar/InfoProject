@@ -34,7 +34,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object{
         var Vso = 0
-        var campainMusic : MediaPlayer? = null
+        var campaignMusic : MediaPlayer? = null
         var bossMusic : MediaPlayer? = null
     }
 
@@ -85,11 +85,11 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    // Play campainMusic and switch button
+    // Play campaign Music and switch button
     fun playSound(view: View) {
-        campainMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
-        campainMusic!!.isLooping = true
-        campainMusic!!.start()
+        campaignMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
+        campaignMusic!!.isLooping = true
+        campaignMusic!!.start()
 
         playButton.isClickable = false
         playButton.alpha = 0f
@@ -97,12 +97,12 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         stopButton.alpha = 0.5f
     }
 
-    // Stop campainMusic and switch button
+    // Stop campaign Music and switch button
     fun stopSound(view: View) {
-        if (campainMusic != null) {
-            campainMusic!!.stop()
-            campainMusic!!.release()
-            campainMusic = null
+        if (campaignMusic != null) {
+            campaignMusic!!.stop()
+            campaignMusic!!.release()
+            campaignMusic = null
         }
         playButton.isClickable = true
         playButton.alpha = 0.5f
@@ -113,18 +113,26 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     // Stops Music when the app is closed
     override fun onStop() {
         super.onStop()
-        if (campainMusic != null) {
-            campainMusic!!.release()
-            campainMusic = null
+        if (campaignMusic != null) {
+            campaignMusic!!.release()
+            campaignMusic = null
+        }
+        if (bossMusic != null) {
+            bossMusic!!.release()
+            bossMusic = null
         }
         PewPewView?.pause()
     }
 
     override fun onPause() {
         super.onPause()
-        if (campainMusic != null) {
-            campainMusic!!.release()
-            campainMusic = null
+        if (campaignMusic != null) {
+            campaignMusic!!.release()
+            campaignMusic = null
+        }
+        if (bossMusic != null) {
+            bossMusic!!.release()
+            bossMusic = null
         }
         PewPewView?.pause()
     }
