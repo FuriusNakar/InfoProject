@@ -7,19 +7,23 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.SurfaceView
 import android.util.Log
+import android.util.LogPrinter
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import android.view.SurfaceHolder;
+import kotlin.random.nextInt
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
     Runnable {
 
+    companion object{
+        var shipligne = 6
+    }
 
-    private val jeuxThread = Thread(this)
-    private var playing = false
-    private var pause = true
+    var jeuxThread = Thread(this)
+    var playing = false
     private var ship = Ship(context, size.x, size.y)
     private val typemob = 1
     private var canvas: Canvas = Canvas()
@@ -36,23 +40,41 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     //private var laser = arrayListOf<>(Bullet)
 
     private var score = 0
-    private var vie = 5
 
     fun spawn() {
-        val ligne_spawn = List(7) { Random.nextInt(3, 9) }
-        val nbr_ennemis_spawnné = ligne_spawn[0] - 1
+        val ligne_spawn = arrayListOf<Int>()
+        var inttoadd = (2..8).random()
+        ligne_spawn.add(inttoadd)
+        while(ligne_spawn.size<7){
+            var inttoadd = (2..8).random()
+            var adding_int = true
+            for (int in ligne_spawn){
+                if (inttoadd == int){
+                    adding_int = false
+                }
+            }
+            if (adding_int){
+                ligne_spawn.add(inttoadd)
+            }
+        }
+        var nbr_ennemis_spawn = ligne_spawn[0] - 1
+        if (nbr_ennemis_spawn < 4){
+            nbr_ennemis_spawn++
+        } else if (nbr_ennemis_spawn > 4){
+            nbr_ennemis_spawn--
+        }
 
         //fction de spawn d'enemy en fction du type
         when (typemob) {
-            1 -> for (i in 0..nbr_ennemis_spawnné) {
+            1 -> for (i in 0 until nbr_ennemis_spawn) {
                 enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
                 nbre_enemies++
             }
-            2 -> for (i in 0..nbr_ennemis_spawnné) {
+            2 -> for (i in 0 until nbr_ennemis_spawn) {
                 enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
                 nbre_enemies++
             }
-            3 -> for (i in 0..nbr_ennemis_spawnné) {
+            3 -> for (i in 0 until nbr_ennemis_spawn) {
                 enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
                 nbre_enemies++
 
@@ -127,17 +149,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    fun pause() {
-        playing = false
-        try {
-            jeuxThread.join()
-        } catch (e: InterruptedException) {
-            Log.e("Error:", "joining thread")
-        }
-    }
-
-    // If SpaceInvadersActivity is started then
-    // start our thread.
     fun resume() {
         playing = true
         jeuxThread.start()
@@ -162,10 +173,18 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         } else pewSound!!.start()
     }
 
+
+
     var clic = true
 
-    companion object{
-        var shipligne = 6
+    fun pause() {
+        playing = false
+        shipligne = 6
+        try {
+            jeuxThread.interrupt()
+        } catch (e: InterruptedException) {
+            Log.e("Error:", "interrupting thread")
+        }
     }
 
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {

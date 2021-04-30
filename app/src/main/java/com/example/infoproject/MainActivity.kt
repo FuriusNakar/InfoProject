@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.graphics.drawable.toDrawable
 
 import kotlinx.android.synthetic.main.start_screen.*
+import kotlin.concurrent.thread
 
 
 class PewPewActivity : AppCompatActivity(), View.OnClickListener {
@@ -41,6 +42,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
     var campainMusic : MediaPlayer? = null
     var grantedSound : MediaPlayer? = null
+    private var PewPewView: PewPewView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,21 +72,15 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             display.getSize(size)
 
             // Initialize gameView and set it as the view
-            val PewPewView = PewPewView(this, size)
+            PewPewView = PewPewView(this, size)
             setContentView(PewPewView)
-
-            PewPewView.resume()
-
-
-
-
-
-
-
-
+            if (PewPewView?.playing == true){
+                PewPewView?.playing = false
+                PewPewView?.jeuxThread?.join()
+            }
+            PewPewView?.playing = true
+            PewPewView?.jeuxThread?.start()
         }
-        //Score_text à uptade avec pewpewview
-
     }
 
 
@@ -121,6 +117,16 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             campainMusic!!.release()
             campainMusic = null
         }
+        PewPewView?.pause()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (campainMusic != null) {
+            campainMusic!!.release()
+            campainMusic = null
+        }
+        PewPewView?.pause()
     }
 
     override fun onClick(v: View?) {

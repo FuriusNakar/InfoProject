@@ -53,12 +53,12 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
         while (vie > 0) {
             if (position.left > 0) {
                 position.left -= SPEEEEED / fps
-            }
+            } else {vie = 0}
             position.right = position.left + largeur
         }
     }
     fun degat(){
-        vie -= 1
+        vie--
     }
 
 
