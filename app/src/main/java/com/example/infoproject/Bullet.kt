@@ -23,7 +23,7 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
         )
 
     //SPEEEEEED
-    private val SPEEEEED = 100f   //rapido bb
+    private val SPEEEEED = 200f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
 

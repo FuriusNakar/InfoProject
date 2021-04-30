@@ -34,14 +34,16 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object{
         var Vso = 0
+        var campainMusic : MediaPlayer? = null
+        var bossMusic : MediaPlayer? = null
     }
 
     init {
         Vso = test_shiplist[0][0]
     }
 
-    var campainMusic : MediaPlayer? = null
     var grantedSound : MediaPlayer? = null
+
     private var PewPewView: PewPewView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +54,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         next_shiptype.setOnClickListener(this)
         previous_shipcolor.setOnClickListener(this)
         next_shipcolor.setOnClickListener(this)
-        
 
         //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
         start_button.setOnClickListener{
@@ -86,11 +87,10 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
     // Play campainMusic and switch button
     fun playSound(view: View) {
-        if (campainMusic == null) {
-            campainMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
-            campainMusic!!.isLooping = true
-            campainMusic!!.start()
-        } else campainMusic!!.start()
+        campainMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
+        campainMusic!!.isLooping = true
+        campainMusic!!.start()
+
         playButton.isClickable = false
         playButton.alpha = 0f
         stopButton.isClickable = true

@@ -30,7 +30,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
         )
 
     //SPEEEEEED
-    private val SPEEEEED = 50f   //rapido bb
+    private val SPEEEEED = 100f   //rapido bb
 
     // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
 
@@ -38,14 +38,22 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
 
 
     //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
-    var points = 50
+    var points = 0
     init {
-
-            when (typemob){
-                1 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.alien)
-                2 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
-                3 -> Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+        when (typemob){
+            1 -> {
+                Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.alien)
+                points = 5
             }
+            2 -> {
+                Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
+                points = 20
+            }
+            3 -> {
+                Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
+                points = 50
+            }
+        }
 
         Ebitmap = Bitmap.createScaledBitmap(Ebitmap, largeur.toInt(), hauteur.toInt(), false)
     }

@@ -19,7 +19,7 @@ class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bu
         super.update(fps,typemob,enemies,missiles,ship) //récupère la fonction update telle qu'elle est définie dans Bullet
         if (missiles.isNotEmpty()){
             for (Missile in missiles) {
-                if (position.intersect(Missile.position)) {
+                if (RectF(position.left-ScreenX/5f,position.top,position.right,position.bottom).intersect(Missile.position)) {
                     Missile.Kaboum()
                     visible = false
                     break
@@ -28,7 +28,7 @@ class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bu
         }
         if (enemies.isNotEmpty()){
             for (Enemy in enemies) {
-                if (position.intersect(Enemy.position)) {
+                if (RectF(position.left-ScreenX/5f,position.top,position.right,position.bottom).intersect(Enemy.position)) {
                     Enemy.degat()
                     visible = false
                     break

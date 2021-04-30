@@ -13,6 +13,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import android.view.SurfaceHolder;
+import com.example.infoproject.PewPewActivity.Companion.bossMusic
+import com.example.infoproject.PewPewActivity.Companion.campainMusic
 import kotlin.random.nextInt
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
@@ -163,8 +165,11 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     var typemobMulti = 0
 
+    var isMusicOn = false
+
     override fun run() {
         var fps: Long = 1
+        if (campainMusic != null){isMusicOn = true}
         while (playing){
             // Capture the current time
             val startFrameTime = System.currentTimeMillis()
@@ -178,15 +183,33 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             if (typemob == 1 && score >= 500 + 1500*typemobMulti){
                 typemob++
                 BackgroundNumber++
+                if (isMusicOn){
+                    campainMusic!!.stop()
+                    bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
+                    bossMusic!!.isLooping = true
+                    bossMusic!!.start()
+                }
             }
             if (typemob ==2 && score >= 1000 + 1500*typemobMulti){
                 typemob++
                 BackgroundNumber++
+                if (isMusicOn) {
+                    bossMusic!!.stop()
+                    campainMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
+                    campainMusic!!.isLooping = true
+                    campainMusic!!.start()
+                }
             }
             if (typemob == 3 && score >= 1500 + 1500*typemobMulti){
                 typemob = 1
                 BackgroundNumber = 0
                 typemobMulti++
+                if (isMusicOn) {
+                    campainMusic!!.stop()
+                    bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
+                    bossMusic!!.isLooping = true
+                    bossMusic!!.start()
+                }
             }
 
             draw()
@@ -199,7 +222,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     }
 
     fun trashCollector(){
-
         var laserSafeRemove = lasers.toMutableList()
         for (laser in lasers) {
             if(!laser.visible){
@@ -227,7 +249,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     }
 
     fun update(fps : Long) {
-        if (enemies.isEmpty()||enemies[enemies.size-1].position.right < 2f*size.x/3f){
+        if (enemies.isEmpty()||enemies[enemies.size-1].position.right < 3f*size.x/4f){
             spawn()
         }
 
@@ -241,11 +263,9 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     var pewSound : MediaPlayer? = null
     fun pewSound () {
-        if (pewSound == null) {
-            pewSound = MediaPlayer.create(context, R.raw.pew)
-            pewSound!!.isLooping = false
-            pewSound!!.start()
-        } else pewSound!!.start()
+        pewSound = MediaPlayer.create(context, R.raw.pew)
+        pewSound!!.isLooping = false
+        pewSound!!.start()
     }
 
 
@@ -264,6 +284,10 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     val laserSafeAdd = ArrayList<Laser>()
 
+    var lastPewTime = System.currentTimeMillis()
+    var newPewTime = System.currentTimeMillis()
+
+
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
         val motionArea = size.y - (2 * size.y / 11)
         when (motionEvent.action and MotionEvent.ACTION_MASK) {
@@ -281,9 +305,19 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                         ship.bouge(-1)
                         clic = false
                     } else if (motionEvent.x > size.x - 2*size.y/11 - 20f && motionEvent.x < size.x - 20f) {
-                        pewSound()
-                        clic = false
-                        laserSafeAdd.add(Laser(context,size.x,size.y, shipligne))
+                        newPewTime = System.currentTimeMillis()
+                        if (newPewTime - lastPewTime >= 600){
+                            lastPewTime = newPewTime
+                            if (pewSound != null){
+                                if (pewSound!!.isPlaying){
+                                    pewSound!!.pause()
+                                }
+                            }
+                            pewSound()
+                            clic = false
+
+                            laserSafeAdd.add(Laser(context,size.x,size.y, shipligne))
+                        }
                     }
                 }
             }
