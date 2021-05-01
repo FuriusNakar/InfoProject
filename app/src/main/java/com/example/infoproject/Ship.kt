@@ -15,9 +15,6 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
 
     var Vbitmap: Bitmap =
         BitmapFactory.decodeResource(context.resources, Vso) //herédité de Bitmap
-    //mettre emplacement du ship choisi
-    // faire programme qui choisit le ship au début du lancement et puis link l'emplacement du fichier à ici
-    // style : startscreen.typeship("sortie/id du ship choisi")
 
     var vie = 5
     var shield = 1f
@@ -29,13 +26,6 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     //pos
     var position =
         RectF(20f, 6f * ScreenY / 11f - hauteur / 2f, 20f + largeur, 6* ScreenY / 11f + hauteur / 2f)
-
-    //SPEEEEEED
-    //private val SPEEEEED = 500000000f   //rapido bb
-
-    //vaisseau bouge pas
-
-
 
     //redimenssionnement du vaisseau sur le convas qu'on a
     init{Vbitmap = Bitmap.createScaledBitmap(Vbitmap, largeur.toInt(), hauteur.toInt(), false)}

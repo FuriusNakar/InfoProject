@@ -48,6 +48,5 @@ class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bu
             visible = false
 
         }
-
     }
 }

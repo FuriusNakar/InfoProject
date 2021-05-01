@@ -59,10 +59,6 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             grantedSound!!.start()
             while (grantedSound!!.isPlaying) {}
 
-            //val jeux = Intent(this, JeuxActivity::class.java)     PU BESW1
-
-            //startActivity(jeux)     PU BESW1
-
             // Get a Display object to access screen details
             val display = windowManager.defaultDisplay
             // Load the resolution into a Point object

@@ -55,12 +55,4 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
         }
 
     }
-    /*
-    fun shoot(){
-        val frequenceshoot : Random()
-        for (i in frequenceshoot.nextInt(1,3)){
-
-
-        }
-     */
-    }
+}

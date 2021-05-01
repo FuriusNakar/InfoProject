@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.RectF
 
 class Missile (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int, typemob : Any, pos_gauche : Float) : Bullet (context, ScreenX, ScreenY, ligne, typemob) {
-
     override var position =
         RectF(
             pos_gauche - 5f - largeur,

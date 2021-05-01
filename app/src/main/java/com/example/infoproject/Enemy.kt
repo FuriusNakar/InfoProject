@@ -79,31 +79,4 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
         vie--
         visible = false
     }
-
-
 }
-/*          a laisser
-fun L(a : Int) : {
-    var ligne = 0
-    for (i in 1..11) {
-        ligne = listOf<Int>(posx * i / 11)
-    }
-    return ligne
-    //pouet pouet cacahuetes
-}
-
-    //fction qui fait spawn les enemy sur une ligne random (entre ligne 2-9 compris)
-    fun spawn(){
-        var spawnok = true
-        val random_ligne = Random.nextInt(2,10)
-        position.top = L.ligne[random_ligne] - hauteur / 2f
-        position.bottom = L.ligne[random_ligne] + hauteur / 2f
-
-        nbre_enemy ++
-
-        when (nbre_enemy > 15){
-             spawnok = false
-        }
-*/
-
-    //fction qui enregistre le hit du laser du vaisseau

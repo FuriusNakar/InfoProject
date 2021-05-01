@@ -40,12 +40,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var missiles = ArrayList<Missile>()
     private var bosses = ArrayList<Boss>()
 
-    //val des bullet
-    //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
-    //private val laser = Bullet(context,size.x,size.y,ligne, "ship")
-    //private var missile = arrayListOf<>(Bullet)
-    //private var laser = arrayListOf<>(Bullet)
-
     var nextBossMulti = 1
 
     fun spawn() {
@@ -77,25 +71,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 enemies.add(Enemy(context, size.x, size.y, typemob, ligne_spawn[i]))
                 nbre_enemies++
             }
-            /*
-            when (typemob) {
-                1 -> for (i in 0 until nbr_ennemis_spawn) {
-                    enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
-                    nbre_enemies++
-                }
-                2 -> for (i in 0 until nbr_ennemis_spawn) {
-                    enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
-                    nbre_enemies++
-                }
-                3 -> for (i in 0 until nbr_ennemis_spawn) {
-                    enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
-                    nbre_enemies++
 
-
-                }
-            }
-
-             */
         } else {
             bosses.add(Boss(context,size.x,size.y,6,typemob,nextBossMulti))
 
@@ -222,37 +198,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 bossMusic!!.stop()
                 bossMusic = null
             }
-
-            /*
-
-
-            if (typemob == 1 && score >= 500 + 1500*typemobMulti){
-                typemob++
-                BackgroundNumber++
-                if (isMusicOn){
-                    campaignMusic!!.stop()
-                    bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
-                    bossMusic!!.isLooping = true
-                    bossMusic!!.start()
-                }
-            }
-            if (typemob == 2 && score >= 1000 + 1500*typemobMulti){
-                typemob++
-                BackgroundNumber++
-                if (isMusicOn) {
-                    bossMusic!!.stop()
-                    campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
-                    campaignMusic!!.isLooping = true
-                    campaignMusic!!.start()
-                }
-            }
-            if (typemob == 3 && score >= 1500 + 1500*typemobMulti){
-                typemob = 1
-                BackgroundNumber = 0
-                typemobMulti++
-            }
-
-             */
 
             draw()
 
