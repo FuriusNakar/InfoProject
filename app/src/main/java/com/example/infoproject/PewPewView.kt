@@ -80,6 +80,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     }
 
     var BackgroundNumber = 0
+
     val Backgroundlist = intArrayOf(R.drawable.barren_planet,R.drawable.lava_planet,R.drawable.temperate_planet)
 
     private fun draw(){
@@ -139,7 +140,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                     canvas.drawBitmap(hpBitmap,5f + i*size.y.toFloat()/11,5f,null)
                     final_i++
                 }
-                if (ship.shield == 1f) {
+                if (ship.shield >= 1f) {
                     canvas.drawBitmap(shieldBitmap,5f + final_i*size.y.toFloat()/11,5f,null)
                 }
             }
@@ -220,9 +221,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         val enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
             if(!enemy.visible){
-                score += enemy.points * nextBossMulti
                 ship.shieldRegeneration()
                 enemySafeRemove.remove(enemy)
+                if(enemy.points >= 0){
+                    score += enemy.points * nextBossMulti
+                } else {
+                    ship.degat()
+                }
             }
         }
         enemies = enemySafeRemove as ArrayList<Enemy>
@@ -248,6 +253,10 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             ship.shieldRegeneration()
             nextBossMulti++
             nbre_enemies = 0
+        }
+
+        if (ship.vie <= 0){
+            pause()
         }
     }
 

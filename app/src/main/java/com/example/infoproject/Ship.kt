@@ -49,15 +49,15 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     }
 
     fun degat(){
-        if (shield == 1f) {
-            shield--
+        if (shield >= 1f) {
+            shield = 0f
         } else {
             vie--
         }
     }
 
     fun shieldRegeneration () {
-        if (shield != 1f){
+        if (shield <= 1f){
             shield += 0.1f
         }
     }
