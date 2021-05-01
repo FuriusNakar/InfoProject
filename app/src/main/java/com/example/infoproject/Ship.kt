@@ -20,7 +20,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     // style : startscreen.typeship("sortie/id du ship choisi")
 
     var vie = 5
-    var shield = 1
+    var shield = 1f
 
     //redimensionnement
     private val largeur = ScreenY / 11f
@@ -59,10 +59,16 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     }
 
     fun degat(){
-        if (shield == 1) {
+        if (shield == 1f) {
             shield--
         } else {
             vie--
+        }
+    }
+
+    fun shieldRegeneration () {
+        if (shield != 1f){
+            shield += 0.1f
         }
     }
 

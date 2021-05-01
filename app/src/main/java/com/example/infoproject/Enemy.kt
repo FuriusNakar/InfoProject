@@ -47,11 +47,11 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
             }
             2 -> {
                 Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.dragon)
-                points = 20
+                points = 5
             }
             3 -> {
                 Ebitmap = BitmapFactory.decodeResource(context.resources, R.drawable.chicken)
-                points = 50
+                points = 5
             }
         }
 

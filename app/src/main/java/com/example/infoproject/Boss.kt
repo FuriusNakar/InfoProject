@@ -45,45 +45,39 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
 
     var signOffset = -1
 
+    var ligneShoot = 6
+    var isShooting = false
+    var ligneWhereShot = ligneShoot
+
     fun update(fps : Long){
-            if (vie > 0){
-                if (position.top < 1.5f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
-                    if(position.left <= 7f * ScreenX / 10f){
-                        signOffset = 1
-                    }
-
-                    if(position.right >= 9f * ScreenX / 10f){
-                        signOffset = -1
-                    }
-
-                    position.offset(signOffset * ScreenY / 20f, speed)
-                    speed *= - 1
+        isShooting = false
+        if (vie > 0){
+            if (position.top > ligneShoot * ScreenY / 11f - 2f * hauteur / 3f && position.bottom < ligneShoot * ScreenY / 11f + 2f * hauteur / 3f) {
+                ligneWhereShot = ligneShoot
+                var newLigneShoot = (2..8).random()
+                while (ligneShoot == newLigneShoot){
+                    newLigneShoot = (2..8).random()
                 }
-                position.top -= speed / fps
-                position.bottom = position.top + hauteur
+                isShooting = true
+                ligneShoot = newLigneShoot
+            }
+            if (position.top < 1f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
+                if(position.left <= 7f * ScreenX / 10f){
+                    signOffset = 1
+                }
+
+                if(position.right >= 9f * ScreenX / 10f){
+                    signOffset = -1
+                }
+
+                position.offset(signOffset * ScreenY / 20f, speed)
+                speed *= - 1
+            }
+            position.top -= speed / fps
+            position.bottom = position.top + hauteur
         }
     }
     fun degat(){
         vie -= 1
     }
-
-
-
-
-    /*
-    fun update(interval: Double) {
-        var up = (interval * obstacleVitesse).toFloat()
-        obstacle.offset(0f, up)
-        if (obstacle.top < 0 || obstacle.bottom > view.screenHeight) {
-            obstacleVitesse *= -1
-            up = (interval * 3 * obstacleVitesse).toFloat()
-            obstacle.offset(0f, up)
-        }
-    }
-    fun rebondit() {
-        speed = -speed
-        position.offset(0F, 3.0F*speed)
-    }
-*/
-
 }

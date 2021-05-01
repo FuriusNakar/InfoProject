@@ -21,7 +21,7 @@ class Missile (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int, ty
             ship.degat()
             visible = false
         }
-        else if (position.right <= 0){
+        else if (position.left <= 0){
             visible = false
         }
     }

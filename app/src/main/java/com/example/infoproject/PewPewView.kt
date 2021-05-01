@@ -150,13 +150,20 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 canvas.drawBitmap(bosses[0].Bbitmap,bosses[0].position.left,bosses[0].position.top,null)
             }
 
+            if (missiles.isNotEmpty()){
+                for (missile in missiles){
+                    canvas.drawBitmap(missile.Bubitmap,missile.position.left,missile.position.top,null)
+                }
+            }
+
+
             if (ship.vie > 0){
                 var final_i = 0
                 for (i in 0 until ship.vie){
                     canvas.drawBitmap(hpBitmap,5f + i*size.y.toFloat()/11,5f,null)
                     final_i++
                 }
-                if (ship.shield == 1) {
+                if (ship.shield == 1f) {
                     canvas.drawBitmap(shieldBitmap,5f + final_i*size.y.toFloat()/11,5f,null)
                 }
             }
@@ -200,30 +207,20 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 trashCollector()
             }
 
-            if (isMusicOn && bosses.isNotEmpty() && campaignMusic != null){
-                campaignMusic!!.isLooping = false
-                if (!campaignMusic!!.isPlaying){
-                    campaignMusic = null
-                }
-            }
-
-            if (isMusicOn && bosses.isNotEmpty() && campaignMusic == null && bossMusic == null){
+            if (isMusicOn && bosses.isNotEmpty() && campaignMusic != null && bossMusic == null){
                 bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
                 bossMusic!!.isLooping = true
                 bossMusic!!.start()
+                campaignMusic!!.stop()
+                campaignMusic = null
             }
 
-            if (isMusicOn && bosses.isEmpty() && bossMusic != null){
-                bossMusic!!.isLooping = false
-                if (!bossMusic!!.isPlaying){
-                    bossMusic = null
-                }
-            }
-
-            if (isMusicOn && bosses.isEmpty() && bossMusic == null && campaignMusic == null){
+            if (isMusicOn && bosses.isEmpty() && campaignMusic == null && bossMusic != null){
                 campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
                 campaignMusic!!.isLooping = true
                 campaignMusic!!.start()
+                bossMusic!!.stop()
+                bossMusic = null
             }
 
             /*
@@ -278,11 +275,20 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         val enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
             if(!enemy.visible){
-                score += enemy.points
+                score += enemy.points * nextBossMulti
+                ship.shieldRegeneration()
                 enemySafeRemove.remove(enemy)
             }
         }
         enemies = enemySafeRemove as ArrayList<Enemy>
+
+        val missileSafeRemove = missiles.toMutableList()
+        for (missile in missiles) {
+            if(!missile.visible){
+                missileSafeRemove.remove(missile)
+            }
+        }
+        missiles = missileSafeRemove as ArrayList<Missile>
 
         if (bosses.isNotEmpty() && bosses[0].vie <= 0){
             bosses.clear()
@@ -293,6 +299,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 BackgroundNumber++
                 typemob++
             }
+            score += 500 * nextBossMulti
+            ship.shieldRegeneration()
             nextBossMulti++
             nbre_enemies = 0
         }
@@ -318,8 +326,15 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             laser.update(fps,"ship",enemies,missiles,ship,bosses)
         }
 
+        for (missile in missiles) {
+            missile.update(fps,typemob,enemies,missiles,ship,bosses)
+        }
+
         if(bosses.isNotEmpty()){
             bosses[0].update(fps)
+            if (bosses[0].isShooting){
+                missiles.add(Missile(context,size.x,size.y,bosses[0].ligneWhereShot,typemob,bosses[0].position.left))
+            }
         }
     }
 
