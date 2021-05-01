@@ -9,7 +9,7 @@ import android.graphics.RectF
 class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int, vieMulti : Int) {
 
 
-    var vie = 25 * vieMulti
+    var vie = 25 + 10 * vieMulti
     val largeur = ScreenY / 6f
     val hauteur = ScreenY / 6f
 
@@ -45,21 +45,22 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
 
     var signOffset = -1
 
-    var ligneShoot = 6
     var isShooting = false
-    var ligneWhereShot = ligneShoot
+    var ligneWhereShot = 0
 
     fun update(fps : Long){
         isShooting = false
         if (vie > 0){
-            if (position.top > ligneShoot * ScreenY / 11f - 2f * hauteur / 3f && position.bottom < ligneShoot * ScreenY / 11f + 2f * hauteur / 3f) {
-                ligneWhereShot = ligneShoot
-                var newLigneShoot = (2..8).random()
-                while (ligneShoot == newLigneShoot){
-                    newLigneShoot = (2..8).random()
+            for(ligneShoot in 2..8){
+                if (position.top > ligneShoot * ScreenY / 11f - 2f * hauteur / 3f && position.bottom < ligneShoot * ScreenY / 11f + 2f * hauteur / 3f) {
+                    ligneWhereShot = ligneShoot
+                    //var newLigneShoot = (2..8).random()
+                    //while (ligneShoot == newLigneShoot){
+                    //    newLigneShoot = (2..8).random()
+                    //}
+                    isShooting = true
+                    //ligneShoot = newLigneShoot
                 }
-                isShooting = true
-                ligneShoot = newLigneShoot
             }
             if (position.top < 1f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
                 if(position.left <= 7f * ScreenX / 10f){
