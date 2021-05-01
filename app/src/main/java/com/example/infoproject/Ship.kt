@@ -45,19 +45,23 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
                 shipligne++
             }
             position.bottom = position.top + hauteur
+            shieldRegeneration()
         }
     }
+
+    var timeShieldWentDown = System.currentTimeMillis()
 
     fun degat(){
         if (shield >= 1f) {
             shield = 0f
+            timeShieldWentDown = System.currentTimeMillis()
         } else {
             vie--
         }
     }
 
     fun shieldRegeneration () {
-        if (shield <= 1f){
+        if (shield <= 1f && System.currentTimeMillis() - timeShieldWentDown >= 10000){
             shield += 0.1f
         }
     }

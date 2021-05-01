@@ -221,7 +221,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         val enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
             if(!enemy.visible){
-                ship.shieldRegeneration()
                 enemySafeRemove.remove(enemy)
                 if(enemy.points >= 0){
                     score += enemy.points * nextBossMulti
@@ -250,7 +249,6 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 typemob++
             }
             score += 500 * nextBossMulti
-            ship.shieldRegeneration()
             nextBossMulti++
             nbre_enemies = 0
         }
@@ -337,7 +335,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                         clic = false
                     } else if (motionEvent.x > size.x - 2*size.y/11 - 20f && motionEvent.x < size.x - 20f) {
                         newPewTime = System.currentTimeMillis()
-                        if (newPewTime - lastPewTime >= 600){
+                        if (newPewTime - lastPewTime >= 500){
                             lastPewTime = newPewTime
                             pewSound()
                             clic = false

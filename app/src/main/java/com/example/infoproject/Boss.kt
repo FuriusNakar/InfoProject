@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
+import java.util.ArrayList
 
 class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int, vieMulti : Int) {
 
@@ -30,6 +31,8 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
 
     lateinit var Bbitmap : Bitmap
 
+    var shootingList = ArrayList<Int>()
+
 
     init{
 
@@ -39,29 +42,49 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
                 3 -> Bbitmap = BitmapFactory.decodeResource(context.resources, R.drawable.rooster)
             }
 
-
         Bbitmap = createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
+
+
+        shootingList.add((2..8).random())
+        var intToAdd = (2..8).random()
+        for (i in 0..2){
+            while (intToAdd in shootingList){
+                intToAdd = (2..8).random()
+            }
+            shootingList.add(intToAdd)
+        }
     }
 
     var signOffset = -1
 
     var isShooting = false
+
     var ligneWhereShot = 0
+
+    var intToAdd = 0
 
     fun update(fps : Long){
         isShooting = false
         if (vie > 0){
-            for(ligneShoot in 2..8){
-                if (position.top > ligneShoot * ScreenY / 11f - 2f * hauteur / 3f && position.bottom < ligneShoot * ScreenY / 11f + 2f * hauteur / 3f) {
+            intToAdd = 0
+            for(ligneShoot in shootingList){
+                if (position.top > ligneShoot * ScreenY / 11f - 5.5f * hauteur / 10f && position.bottom < ligneShoot * ScreenY / 11f + 5.5f * hauteur / 10f) {
                     ligneWhereShot = ligneShoot
-                    //var newLigneShoot = (2..8).random()
-                    //while (ligneShoot == newLigneShoot){
-                    //    newLigneShoot = (2..8).random()
-                    //}
+
+                    intToAdd = (2..8).random()
+                    while (intToAdd in shootingList){
+                        intToAdd = (2..8).random()
+                    }
+
                     isShooting = true
-                    //ligneShoot = newLigneShoot
                 }
             }
+
+            shootingList.remove(ligneWhereShot)
+            if(intToAdd != 0){
+                shootingList.add(intToAdd)
+            }
+
             if (position.top < 1f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
                 if(position.left <= 7f * ScreenX / 10f){
                     signOffset = 1
@@ -73,6 +96,8 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
 
                 position.offset(signOffset * ScreenY / 20f, speed)
                 speed *= - 1
+
+                isShooting = false
             }
             position.top -= speed / fps
             position.bottom = position.top + hauteur
