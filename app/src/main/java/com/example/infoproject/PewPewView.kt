@@ -38,6 +38,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var nbre_enemies = 0
     private var lasers = ArrayList<Laser>()
     private var missiles = ArrayList<Missile>()
+    private var bosses = ArrayList<Boss>()
 
     //val des bullet
     //private val missile = Bullet(context,size.x,size.y, ligne, typemob)
@@ -45,46 +46,61 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     //private var missile = arrayListOf<>(Bullet)
     //private var laser = arrayListOf<>(Bullet)
 
+    var nextBossMulti = 1
+
     fun spawn() {
-        val ligne_spawn = arrayListOf<Int>()
-        var inttoadd = (2..8).random()
-        ligne_spawn.add(inttoadd)
-        while(ligne_spawn.size<7){
+        if (nbre_enemies <= 40 * (nextBossMulti) ){
+            val ligne_spawn = arrayListOf<Int>()
             var inttoadd = (2..8).random()
-            var adding_int = true
-            for (int in ligne_spawn){
-                if (inttoadd == int){
-                    adding_int = false
+            ligne_spawn.add(inttoadd)
+            while(ligne_spawn.size<7){
+                var inttoadd = (2..8).random()
+                var adding_int = true
+                for (int in ligne_spawn){
+                    if (inttoadd == int){
+                        adding_int = false
+                    }
+                }
+                if (adding_int){
+                    ligne_spawn.add(inttoadd)
                 }
             }
-            if (adding_int){
-                ligne_spawn.add(inttoadd)
+            var nbr_ennemis_spawn = ligne_spawn[0] - 1
+            if (nbr_ennemis_spawn < 4){
+                nbr_ennemis_spawn++
+            } else if (nbr_ennemis_spawn > 4){
+                nbr_ennemis_spawn--
             }
-        }
-        var nbr_ennemis_spawn = ligne_spawn[0] - 1
-        if (nbr_ennemis_spawn < 4){
-            nbr_ennemis_spawn++
-        } else if (nbr_ennemis_spawn > 4){
-            nbr_ennemis_spawn--
-        }
 
-        //fction de spawn d'enemy en fction du type
-        when (typemob) {
-            1 -> for (i in 0 until nbr_ennemis_spawn) {
-                enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
+            //fction de spawn d'enemy en fction du type
+            for (i in 0 until nbr_ennemis_spawn) {
+                enemies.add(Enemy(context, size.x, size.y, typemob, ligne_spawn[i]))
                 nbre_enemies++
             }
-            2 -> for (i in 0 until nbr_ennemis_spawn) {
-                enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
-                nbre_enemies++
-            }
-            3 -> for (i in 0 until nbr_ennemis_spawn) {
-                enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
-                nbre_enemies++
+            /*
+            when (typemob) {
+                1 -> for (i in 0 until nbr_ennemis_spawn) {
+                    enemies.add(Enemy(context, size.x, size.y, 1, ligne_spawn[i]))
+                    nbre_enemies++
+                }
+                2 -> for (i in 0 until nbr_ennemis_spawn) {
+                    enemies.add(Enemy(context, size.x, size.y, 2, ligne_spawn[i]))
+                    nbre_enemies++
+                }
+                3 -> for (i in 0 until nbr_ennemis_spawn) {
+                    enemies.add(Enemy(context, size.x, size.y, 3, ligne_spawn[i]))
+                    nbre_enemies++
 
 
+                }
             }
+
+             */
+        } else {
+            bosses.add(Boss(context,size.x,size.y,6,typemob,nextBossMulti))
+
         }
+
     }
 
     var BackgroundNumber = 0
@@ -125,9 +141,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             }
 
             if (enemies.isNotEmpty()){
-                for (enemi in enemies){
-                    canvas.drawBitmap(enemi.Ebitmap,enemi.position.left,enemi.position.top,null)
+                for (enemy in enemies){
+                    canvas.drawBitmap(enemy.Ebitmap,enemy.position.left,enemy.position.top,null)
                 }
+            }
+
+            if (bosses.isNotEmpty()){
+                canvas.drawBitmap(bosses[0].Bbitmap,bosses[0].position.left,bosses[0].position.top,null)
             }
 
             if (ship.vie > 0){
@@ -163,7 +183,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         jeuxThread.start()
     }
 
-    var typemobMulti = 0
+    //var typemobMulti = 0
 
     var isMusicOn = false
 
@@ -179,6 +199,35 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 update(fps)
                 trashCollector()
             }
+
+            if (isMusicOn && bosses.isNotEmpty() && campaignMusic != null){
+                campaignMusic!!.isLooping = false
+                if (!campaignMusic!!.isPlaying){
+                    campaignMusic = null
+                }
+            }
+
+            if (isMusicOn && bosses.isNotEmpty() && campaignMusic == null && bossMusic == null){
+                bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
+                bossMusic!!.isLooping = true
+                bossMusic!!.start()
+            }
+
+            if (isMusicOn && bosses.isEmpty() && bossMusic != null){
+                bossMusic!!.isLooping = false
+                if (!bossMusic!!.isPlaying){
+                    bossMusic = null
+                }
+            }
+
+            if (isMusicOn && bosses.isEmpty() && bossMusic == null && campaignMusic == null){
+                campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
+                campaignMusic!!.isLooping = true
+                campaignMusic!!.start()
+            }
+
+            /*
+
 
             if (typemob == 1 && score >= 500 + 1500*typemobMulti){
                 typemob++
@@ -206,6 +255,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 typemobMulti++
             }
 
+             */
+
             draw()
 
             // Calculate the fps rate this frame
@@ -216,7 +267,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     }
 
     fun trashCollector(){
-        var laserSafeRemove = lasers.toMutableList()
+        val laserSafeRemove = lasers.toMutableList()
         for (laser in lasers) {
             if(!laser.visible){
                 laserSafeRemove.remove(laser)
@@ -224,7 +275,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
         lasers = laserSafeRemove as ArrayList<Laser>
 
-        var enemySafeRemove = enemies.toMutableList()
+        val enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
             if(!enemy.visible){
                 score += enemy.points
@@ -232,10 +283,22 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             }
         }
         enemies = enemySafeRemove as ArrayList<Enemy>
+
+        if (bosses.isNotEmpty() && bosses[0].vie <= 0){
+            bosses.clear()
+            if (typemob == 3){
+                typemob = 1
+                BackgroundNumber = 0
+            } else {
+                BackgroundNumber++
+                typemob++
+            }
+            nextBossMulti++
+        }
     }
 
     fun update(fps : Long) {
-        if (enemies.isEmpty()||enemies[enemies.size-1].position.right < 3f*size.x/4f){
+        if (enemies.isEmpty() || enemies[enemies.size-1].position.right < 3f*size.x/4f){
             spawn()
         }
 
@@ -249,8 +312,13 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         for (enemy in enemies) {
             enemy.update(fps)
         }
+
         for (laser in lasers) {
-            laser.update(fps,"ship",enemies,missiles,ship)
+            laser.update(fps,"ship",enemies,missiles,ship,bosses)
+        }
+
+        if(bosses.isNotEmpty()){
+            bosses[0].update(fps)
         }
     }
 

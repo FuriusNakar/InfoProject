@@ -15,24 +15,32 @@ class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bu
 
 
     override fun update(fps : Long, typemob : Any, enemies: ArrayList<Enemy>,
-                        missiles: ArrayList<Missile>, ship: Ship) {
-        super.update(fps,typemob,enemies,missiles,ship) //récupère la fonction update telle qu'elle est définie dans Bullet
+                        missiles: ArrayList<Missile>, ship: Ship, bosses: ArrayList<Boss>) {
+        super.update(fps,typemob,enemies,missiles,ship, bosses) //récupère la fonction update telle qu'elle est définie dans Bullet
         if (missiles.isNotEmpty()){
             for (Missile in missiles) {
-                if (RectF(position.left-ScreenX/5f,position.top,position.right,position.bottom).intersect(Missile.position)) {
+                if (RectF(position.left-ScreenX/4.5f,position.top,position.right,position.bottom).intersect(Missile.position)) {
                     Missile.Kaboum()
                     visible = false
                     break
                 }
             }
         }
-        if (enemies.isNotEmpty()){
+
+        if (enemies.isNotEmpty() && visible){
             for (Enemy in enemies) {
-                if (RectF(position.left-ScreenX/5f,position.top,position.right,position.bottom).intersect(Enemy.position)) {
+                if (Enemy.visible && RectF(position.left-ScreenX/4.5f,position.top,position.right,position.bottom).intersect(Enemy.position)) {
                     Enemy.degat()
                     visible = false
                     break
                 }
+            }
+        }
+
+        if (bosses.isNotEmpty() && visible){
+            if (RectF(position.left-ScreenX/4.5f,position.top,position.right,position.bottom).intersect(bosses[0].position)) {
+                bosses[0].degat()
+                visible = false
             }
         }
 

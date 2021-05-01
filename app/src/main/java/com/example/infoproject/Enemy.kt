@@ -77,6 +77,7 @@ class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemo
     }
     fun degat(){
         vie--
+        visible = false
     }
 
 

@@ -40,11 +40,11 @@ open class Bullet(context: Context, val ScreenX: Int, val ScreenY: Int, val lign
     }
 
     open fun update(fps: Long, typemob: Any, enemies: ArrayList<Enemy>,
-        missiles: ArrayList<Missile>, ship: Ship
+        missiles: ArrayList<Missile>, ship: Ship, bosses: ArrayList<Boss>
     ) {
         if (typemob == "ship") {
             if (position.right < ScreenX) {
-                position.right += 2 * SPEEEEED / fps
+                position.right += 2.5f * SPEEEEED / fps
             }
             position.left = position.right - largeur
         } else {

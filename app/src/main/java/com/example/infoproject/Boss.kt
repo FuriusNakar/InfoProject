@@ -6,12 +6,12 @@ import android.graphics.Bitmap.createScaledBitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
 
-class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int,  var view : PewPewView) {
+class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int, vieMulti : Int) {
 
 
-    var vie = 20
-    val largeur = ScreenY / 11f
-    val hauteur = ScreenY / 11f
+    var vie = 25 * vieMulti
+    val largeur = ScreenY / 6f
+    val hauteur = ScreenY / 6f
 
 
     //pos
@@ -23,13 +23,13 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
             ScreenY * ligne /11f + hauteur/2
         )
     //speed
-    var speed = 60f
+    var speed = 25f
 
     //fction qui recois dans "type" par pewpewview
 
-    companion object {
-        lateinit var Bbitmap : Bitmap
-        }
+
+    lateinit var Bbitmap : Bitmap
+
 
     init{
 
@@ -44,12 +44,13 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
     }
 
     fun update(fps : Long){
-            while (vie > 0){
-                position.top -= speed / fps
-                if (position.top < 2f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
+            if (vie > 0){
+                if (position.top < 1.5f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
+                    position.offset(-ScreenY/20f, speed)
                     speed *= - 1
-                    position.offset(0f, speed)
                 }
+                position.top -= speed / fps
+                position.bottom = position.top + hauteur
         }
     }
     fun degat(){
