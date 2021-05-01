@@ -43,10 +43,20 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
         Bbitmap = createScaledBitmap(Bbitmap, largeur.toInt(), hauteur.toInt(), false)
     }
 
+    var signOffset = -1
+
     fun update(fps : Long){
             if (vie > 0){
                 if (position.top < 1.5f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
-                    position.offset(-ScreenY/20f, speed)
+                    if(position.left <= 7f * ScreenX / 10f){
+                        signOffset = 1
+                    }
+
+                    if(position.right >= 9f * ScreenX / 10f){
+                        signOffset = -1
+                    }
+
+                    position.offset(signOffset * ScreenY / 20f, speed)
                     speed *= - 1
                 }
                 position.top -= speed / fps

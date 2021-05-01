@@ -294,6 +294,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 typemob++
             }
             nextBossMulti++
+            nbre_enemies = 0
         }
     }
 

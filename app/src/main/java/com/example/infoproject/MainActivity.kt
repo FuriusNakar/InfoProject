@@ -1,17 +1,14 @@
 package com.example.infoproject
 
 
-import android.content.Intent
 import android.graphics.Point
 import android.media.MediaPlayer
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
-import androidx.core.graphics.drawable.toDrawable
 
 import kotlinx.android.synthetic.main.start_screen.*
-import kotlin.concurrent.thread
 
 
 class PewPewActivity : AppCompatActivity(), View.OnClickListener {
@@ -91,10 +88,10 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         campaignMusic!!.isLooping = true
         campaignMusic!!.start()
 
-        playButton.isClickable = false
-        playButton.alpha = 0f
         stopButton.isClickable = true
         stopButton.alpha = 0.5f
+        playButton.isClickable = false
+        playButton.alpha = 0f
     }
 
     // Stop campaign Music and switch button
@@ -104,10 +101,11 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
             campaignMusic!!.release()
             campaignMusic = null
         }
-        playButton.isClickable = true
-        playButton.alpha = 0.5f
+
         stopButton.isClickable = false
         stopButton.alpha = 0f
+        playButton.isClickable = true
+        playButton.alpha = 0.5f
     }
 
     // Stops Music when the app is closed
