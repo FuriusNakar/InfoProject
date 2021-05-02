@@ -4,18 +4,17 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.RectF
-import kotlin.random.Random
 
-class Enemy (context : Context, val ScreenX : Int, val ScreenY : Int, val typemob : Int, val ligne : Int) {
+class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, ligne : Int) {
     //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
     // ligne sert pour le spawn (random)
     // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
 
     //dans le View il y a moulte enemy -> posy random, posx initial fixé
-    var vie = 1
+    private var vie = 1
     //redimensionnement
     private val largeur = ScreenY / 11f
-    val hauteur = ScreenY / 11f
+    private val hauteur = ScreenY / 11f
 
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true

@@ -21,7 +21,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
 
     //redimensionnement
     private val largeur = ScreenY / 11f
-    val hauteur = ScreenY / 11f
+    private val hauteur = ScreenY / 11f
 
     //pos
     var position =
@@ -49,7 +49,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         }
     }
 
-    var timeShieldWentDown = System.currentTimeMillis()
+    private var timeShieldWentDown = System.currentTimeMillis()
 
     fun degat(){
         if (shield >= 1f) {
@@ -60,12 +60,9 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         timeShieldWentDown = System.currentTimeMillis()
     }
 
-    fun shieldRegeneration () {
+    private fun shieldRegeneration () {
         if (shield <= 1f && System.currentTimeMillis() - timeShieldWentDown >= 10000){
             shield += 0.1f
         }
     }
-
-
-
 }

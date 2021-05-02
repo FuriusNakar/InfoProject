@@ -1,13 +1,11 @@
 package com.example.infoproject
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.*
 import android.media.MediaPlayer
 import android.util.Log
 import android.view.MotionEvent
 import android.view.SurfaceView
-import androidx.core.content.ContextCompat.startActivity
 import com.example.infoproject.PewPewActivity.Companion.bossMusic
 import com.example.infoproject.PewPewActivity.Companion.campaignMusic
 import kotlin.system.exitProcess
@@ -37,15 +35,15 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     private var missiles = ArrayList<Missile>()
     private var bosses = ArrayList<Boss>()
 
-    var nextBossMulti = 1
+    private var nextBossMulti = 1
 
-    fun spawn() {
+    private fun spawn() {
         if (nbre_enemies <= 40 * (nextBossMulti)) {
             val ligne_spawn = arrayListOf<Int>()
             var inttoadd = (2..8).random()
             ligne_spawn.add(inttoadd)
             while (ligne_spawn.size < 7) {
-                var inttoadd = (2..8).random()
+                inttoadd = (2..8).random()
                 var adding_int = true
                 for (int in ligne_spawn) {
                     if (inttoadd == int) {
@@ -76,18 +74,18 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     }
 
-    var BackgroundNumber = 0
+    private var BackgroundNumber = 0
 
-    val Backgroundlist =
+    private val Backgroundlist =
         intArrayOf(R.drawable.barren_planet, R.drawable.lava_planet, R.drawable.temperate_planet)
 
     private fun draw() {
         //fction responsable du dessiner les bitmaps sur imageview
         if (holder.surface.isValid) {
-            var Screenbitmap: Bitmap =
+            var screenBitmap: Bitmap =
                 BitmapFactory.decodeResource(context.resources, Backgroundlist[BackgroundNumber])
 
-            Screenbitmap = Bitmap.createScaledBitmap(Screenbitmap, size.x, size.y, false)
+            screenBitmap = Bitmap.createScaledBitmap(screenBitmap, size.x, size.y, false)
 
             var upBitmap: Bitmap =
                 BitmapFactory.decodeResource(context.resources, R.drawable.moving_up_arrow)
@@ -115,7 +113,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             canvas = holder.lockCanvas()
 
             // Draw the background color
-            canvas.drawBitmap(Screenbitmap, 0f, 0f, null)
+            canvas.drawBitmap(screenBitmap, 0f, 0f, null)
 
             if (lasers.isNotEmpty()) {
                 for (laser in lasers) {
@@ -190,14 +188,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    fun resume() {
-        playing = true
-        jeuxThread.start()
-    }
-
-    //var typemobMulti = 0
-
-    var isMusicOn = false
+    private var isMusicOn = false
 
     override fun run() {
         var fps: Long = 1
@@ -262,7 +253,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    fun gameOver() {
+    private fun gameOver() {
         //fction responsable du dessiner les bitmaps sur imageview
         if (holder.surface.isValid) {
             var gameOverScreenBitmap: Bitmap =
@@ -305,7 +296,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    fun trashCollector() {
+    private fun trashCollector() {
         val laserSafeRemove = lasers.toMutableList()
         for (laser in lasers) {
             if (!laser.visible) {
@@ -354,7 +345,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    fun update(fps: Long) {
+    private fun update(fps: Long) {
         if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 3f * size.x / 4f) {
             spawn()
         }
@@ -395,15 +386,15 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    var pewSound: MediaPlayer? = null
-    fun pewSound() {
+    private var pewSound: MediaPlayer? = null
+    private fun pewSound() {
         pewSound = MediaPlayer.create(context, R.raw.pew)
         pewSound!!.isLooping = false
         pewSound!!.start()
     }
 
 
-    var clic = true
+    private var clic = true
 
     fun pause() {
         playing = false
@@ -415,66 +406,64 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    val laserSafeAdd = ArrayList<Laser>()
+    private val laserSafeAdd = ArrayList<Laser>()
 
-    var lastPewTime = System.currentTimeMillis()
-    var newPewTime = System.currentTimeMillis()
+    private var lastPewTime = System.currentTimeMillis()
+    private var newPewTime = System.currentTimeMillis()
 
 
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
-        if(true) {
-            if (playing) {
-                val motionArea = size.y - (2 * size.y / 11)
-                when (motionEvent.action and MotionEvent.ACTION_MASK) {
+        if (playing) {
+            val motionArea = size.y - (2 * size.y / 11)
+            when (motionEvent.action and MotionEvent.ACTION_MASK) {
 
-                    // Player has touched the screen
-                    // Or moved their finger while touching screen
-                    MotionEvent.ACTION_POINTER_DOWN,
-                    MotionEvent.ACTION_DOWN,
-                    MotionEvent.ACTION_MOVE -> {
-                        if (motionEvent.y > motionArea && clic) {
-                            if (motionEvent.x > 20f && motionEvent.x < 2 * size.y / 11 + 20f) {
-                                ship.bouge(1)
+                // Player has touched the screen
+                // Or moved their finger while touching screen
+                MotionEvent.ACTION_POINTER_DOWN,
+                MotionEvent.ACTION_DOWN,
+                MotionEvent.ACTION_MOVE -> {
+                    if (motionEvent.y > motionArea && clic) {
+                        if (motionEvent.x > 20f && motionEvent.x < 2 * size.y / 11 + 20f) {
+                            ship.bouge(1)
+                            clic = false
+                        } else if (motionEvent.x > 2 * size.y / 11 + 20f && motionEvent.x < 4 * size.y / 11 + 20f) {
+                            ship.bouge(-1)
+                            clic = false
+                        } else if (motionEvent.x > size.x - 2 * size.y / 11 - 20f && motionEvent.x < size.x - 20f) {
+                            newPewTime = System.currentTimeMillis()
+                            if (newPewTime - lastPewTime >= 500) {
+                                lastPewTime = newPewTime
+                                pewSound()
                                 clic = false
-                            } else if (motionEvent.x > 2 * size.y / 11 + 20f && motionEvent.x < 4 * size.y / 11 + 20f) {
-                                ship.bouge(-1)
-                                clic = false
-                            } else if (motionEvent.x > size.x - 2 * size.y / 11 - 20f && motionEvent.x < size.x - 20f) {
-                                newPewTime = System.currentTimeMillis()
-                                if (newPewTime - lastPewTime >= 500) {
-                                    lastPewTime = newPewTime
-                                    pewSound()
-                                    clic = false
 
-                                    laserSafeAdd.add(Laser(context, size.x, size.y, shipligne))
-                                }
-                            }
-                        }
-                    }
-
-                    MotionEvent.ACTION_POINTER_UP,
-                    MotionEvent.ACTION_UP -> clic = true
-                }
-
-            }
-
-            if (!playing) {
-                when (motionEvent.action and MotionEvent.ACTION_MASK) {
-                    MotionEvent.ACTION_POINTER_DOWN,
-                    MotionEvent.ACTION_DOWN,
-                    MotionEvent.ACTION_MOVE -> {
-                        if (motionEvent.y > 0.4f * size.y && motionEvent.y < 0.6f * size.y) {
-                            if (motionEvent.x > 0.2f * size.x && motionEvent.x < 0.4f * size.x) {
-                                exitProcess(-1)
-                            }
-                            if (motionEvent.x > 0.6f * size.x && motionEvent.x < 0.8f * size.x) {
-                                playing = true
+                                laserSafeAdd.add(Laser(context, size.x, size.y, shipligne))
                             }
                         }
                     }
                 }
 
+                MotionEvent.ACTION_POINTER_UP,
+                MotionEvent.ACTION_UP -> clic = true
             }
+
+        }
+
+        if (!playing) {
+            when (motionEvent.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_POINTER_DOWN,
+                MotionEvent.ACTION_DOWN,
+                MotionEvent.ACTION_MOVE -> {
+                    if (motionEvent.y > 0.4f * size.y && motionEvent.y < 0.6f * size.y) {
+                        if (motionEvent.x > 0.2f * size.x && motionEvent.x < 0.4f * size.x) {
+                            exitProcess(-1)
+                        }
+                        if (motionEvent.x > 0.6f * size.x && motionEvent.x < 0.8f * size.x) {
+                            playing = true
+                        }
+                    }
+                }
+            }
+
         }
         return true
     }

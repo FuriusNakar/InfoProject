@@ -11,8 +11,8 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
 
 
     var vie = 25 + 10 * vieMulti
-    val largeur = ScreenY / 6f
-    val hauteur = ScreenY / 6f
+    private val largeur = ScreenY / 6f
+    private val hauteur = ScreenY / 6f
 
 
     //pos
@@ -24,14 +24,14 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
             ScreenY * ligne /11f + hauteur/2
         )
     //speed
-    var speed = 25f
+    private var speed = 25f
 
     //fction qui recois dans "type" par pewpewview
 
 
     lateinit var Bbitmap : Bitmap
 
-    var shootingList = ArrayList<Int>()
+    private var shootingList = ArrayList<Int>()
 
 
     init{
@@ -55,13 +55,13 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
         }
     }
 
-    var signOffset = -1
+    private var signOffset = -1
 
     var isShooting = false
 
     var ligneWhereShot = 0
 
-    var intToAdd = 0
+    private var intToAdd = 0
 
     fun update(fps : Long){
         isShooting = false

@@ -13,21 +13,21 @@ import kotlinx.android.synthetic.main.start_screen.*
 
 class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
-    val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_red)
-    val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
-    val vargur_list = intArrayOf(R.drawable.vargur_blue,R.drawable.vargur_green, R.drawable.vargur_red)
+    private val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_red)
+    private val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
+    private val vargur_list = intArrayOf(R.drawable.vargur_blue,R.drawable.vargur_green, R.drawable.vargur_red)
 
     //liste dans une liste, sur python c'était comme ca
-    val test_shiplist = arrayListOf(spaceship_list, xwing_list,vargur_list)
+    private val test_shiplist = arrayListOf(spaceship_list, xwing_list,vargur_list)
 
 
 
 
     //val list_ship = intArrayOf(R.drawable.spaceship_blue, R.drawable.xwing_blue)
-    val list_color = intArrayOf(R.drawable.pentagone_bleu, R.drawable.pentagone_vert, R.drawable.pentagone_rouge)
+    private val list_color = intArrayOf(R.drawable.pentagone_bleu, R.drawable.pentagone_vert, R.drawable.pentagone_rouge)
     //val is_ship de base = list_ship[0]
-    var id_ship = 0
-    var couleur_id = 0
+    private var id_ship = 0
+    private var couleur_id = 0
 
     companion object{
         var Vso = 0
@@ -39,7 +39,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         Vso = test_shiplist[0][0]
     }
 
-    var grantedSound : MediaPlayer? = null
+    private var grantedSound : MediaPlayer? = null
 
     private var PewPewView: PewPewView? = null
 
@@ -81,7 +81,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
 
     // Play campaign Music and switch button
-    fun playSound(view: View) {
+    fun playSound() {
         campaignMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
         campaignMusic!!.isLooping = true
         campaignMusic!!.start()
@@ -93,7 +93,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // Stop campaign Music and switch button
-    fun stopSound(view: View) {
+    fun stopSound() {
         if (campaignMusic != null) {
             campaignMusic!!.stop()
             campaignMusic!!.release()
