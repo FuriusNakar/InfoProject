@@ -54,10 +54,10 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     fun degat(){
         if (shield >= 1f) {
             shield = 0f
-            timeShieldWentDown = System.currentTimeMillis()
         } else {
             vie--
         }
+        timeShieldWentDown = System.currentTimeMillis()
     }
 
     fun shieldRegeneration () {

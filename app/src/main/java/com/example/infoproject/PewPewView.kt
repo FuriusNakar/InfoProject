@@ -1,29 +1,26 @@
 package com.example.infoproject
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.graphics.*
 import android.media.MediaPlayer
-import android.os.Bundle
-import android.view.SurfaceView
 import android.util.Log
-import android.util.LogPrinter
 import android.view.MotionEvent
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import kotlin.random.Random
-import android.view.SurfaceHolder;
+import android.view.SurfaceView
+import androidx.core.content.ContextCompat.startActivity
 import com.example.infoproject.PewPewActivity.Companion.bossMusic
 import com.example.infoproject.PewPewActivity.Companion.campaignMusic
-import kotlin.random.nextInt
+import kotlin.system.exitProcess
+
 
 class PewPewView(context: Context, private val size: Point) : SurfaceView(context),
     Runnable {
 
-    companion object{
+    companion object {
         var shipligne = 6
         var score = 0
     }
+
 
     var jeuxThread = Thread(this)
     var playing = false
@@ -43,26 +40,26 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     var nextBossMulti = 1
 
     fun spawn() {
-        if (nbre_enemies <= 40 * (nextBossMulti) ){
+        if (nbre_enemies <= 40 * (nextBossMulti)) {
             val ligne_spawn = arrayListOf<Int>()
             var inttoadd = (2..8).random()
             ligne_spawn.add(inttoadd)
-            while(ligne_spawn.size<7){
+            while (ligne_spawn.size < 7) {
                 var inttoadd = (2..8).random()
                 var adding_int = true
-                for (int in ligne_spawn){
-                    if (inttoadd == int){
+                for (int in ligne_spawn) {
+                    if (inttoadd == int) {
                         adding_int = false
                     }
                 }
-                if (adding_int){
+                if (adding_int) {
                     ligne_spawn.add(inttoadd)
                 }
             }
             var nbr_ennemis_spawn = ligne_spawn[0] - 1
-            if (nbr_ennemis_spawn < 4){
+            if (nbr_ennemis_spawn < 4) {
                 nbr_ennemis_spawn++
-            } else if (nbr_ennemis_spawn > 4){
+            } else if (nbr_ennemis_spawn > 4) {
                 nbr_ennemis_spawn--
             }
 
@@ -73,7 +70,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             }
 
         } else {
-            bosses.add(Boss(context,size.x,size.y,6,typemob,nextBossMulti))
+            bosses.add(Boss(context, size.x, size.y, 6, typemob, nextBossMulti))
 
         }
 
@@ -81,81 +78,112 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     var BackgroundNumber = 0
 
-    val Backgroundlist = intArrayOf(R.drawable.barren_planet,R.drawable.lava_planet,R.drawable.temperate_planet)
+    val Backgroundlist =
+        intArrayOf(R.drawable.barren_planet, R.drawable.lava_planet, R.drawable.temperate_planet)
 
-    private fun draw(){
+    private fun draw() {
         //fction responsable du dessiner les bitmaps sur imageview
         if (holder.surface.isValid) {
-            var Screenbitmap: Bitmap = BitmapFactory.decodeResource(context.resources,Backgroundlist[BackgroundNumber])
+            var Screenbitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, Backgroundlist[BackgroundNumber])
 
             Screenbitmap = Bitmap.createScaledBitmap(Screenbitmap, size.x, size.y, false)
 
-            var upBitmap: Bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.moving_up_arrow)
-            upBitmap = Bitmap.createScaledBitmap(upBitmap, 2*size.y/11, 2*size.y/11, false)
+            var upBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.moving_up_arrow)
+            upBitmap = Bitmap.createScaledBitmap(upBitmap, 2 * size.y / 11, 2 * size.y / 11, false)
 
-            var downBitmap: Bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.moving_down_arrow)
-            downBitmap = Bitmap.createScaledBitmap(downBitmap, 2*size.y/11, 2*size.y/11, false)
+            var downBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.moving_down_arrow)
+            downBitmap =
+                Bitmap.createScaledBitmap(downBitmap, 2 * size.y / 11, 2 * size.y / 11, false)
 
-            var pewBitmap: Bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.fire_button)
-            pewBitmap = Bitmap.createScaledBitmap(pewBitmap, 2*size.y/11, 2*size.y/11, false)
+            var pewBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.fire_button)
+            pewBitmap =
+                Bitmap.createScaledBitmap(pewBitmap, 2 * size.y / 11, 2 * size.y / 11, false)
 
-            var hpBitmap: Bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.pentagone_vert)
-            hpBitmap = Bitmap.createScaledBitmap(hpBitmap, size.y/11, size.y/11, false)
+            var hpBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.pentagone_vert)
+            hpBitmap = Bitmap.createScaledBitmap(hpBitmap, size.y / 11, size.y / 11, false)
 
-            var shieldBitmap: Bitmap = BitmapFactory.decodeResource(context.resources,R.drawable.pentagone_bleu)
-            shieldBitmap = Bitmap.createScaledBitmap(shieldBitmap, size.y/11, size.y/11, false)
+            var shieldBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.pentagone_bleu)
+            shieldBitmap = Bitmap.createScaledBitmap(shieldBitmap, size.y / 11, size.y / 11, false)
 
             // Lock the canvas ready to draw
             canvas = holder.lockCanvas()
 
             // Draw the background color
-            canvas.drawBitmap(Screenbitmap,0f,0f,null)
+            canvas.drawBitmap(Screenbitmap, 0f, 0f, null)
 
-            if (lasers.isNotEmpty()){
-                for (laser in lasers){
-                    canvas.drawBitmap(laser.Bubitmap,laser.position.left,laser.position.top,null)
+            if (lasers.isNotEmpty()) {
+                for (laser in lasers) {
+                    canvas.drawBitmap(laser.Bubitmap, laser.position.left, laser.position.top, null)
                 }
             }
 
-            if (enemies.isNotEmpty()){
-                for (enemy in enemies){
-                    canvas.drawBitmap(enemy.Ebitmap,enemy.position.left,enemy.position.top,null)
+            if (enemies.isNotEmpty()) {
+                for (enemy in enemies) {
+                    canvas.drawBitmap(enemy.Ebitmap, enemy.position.left, enemy.position.top, null)
                 }
             }
 
-            if (bosses.isNotEmpty()){
-                canvas.drawBitmap(bosses[0].Bbitmap,bosses[0].position.left,bosses[0].position.top,null)
+            if (bosses.isNotEmpty()) {
+                canvas.drawBitmap(
+                    bosses[0].Bbitmap,
+                    bosses[0].position.left,
+                    bosses[0].position.top,
+                    null
+                )
             }
 
-            if (missiles.isNotEmpty()){
-                for (missile in missiles){
-                    canvas.drawBitmap(missile.Bubitmap,missile.position.left,missile.position.top,null)
+            if (missiles.isNotEmpty()) {
+                for (missile in missiles) {
+                    canvas.drawBitmap(
+                        missile.Bubitmap,
+                        missile.position.left,
+                        missile.position.top,
+                        null
+                    )
                 }
             }
 
 
-            if (ship.vie > 0){
+            if (ship.vie > 0) {
                 var final_i = 0
-                for (i in 0 until ship.vie){
-                    canvas.drawBitmap(hpBitmap,5f + i*size.y.toFloat()/11,5f,null)
+                for (i in 0 until ship.vie) {
+                    canvas.drawBitmap(hpBitmap, 5f + i * size.y.toFloat() / 11, 5f, null)
                     final_i++
                 }
                 if (ship.shield >= 1f) {
-                    canvas.drawBitmap(shieldBitmap,5f + final_i*size.y.toFloat()/11,5f,null)
+                    canvas.drawBitmap(shieldBitmap, 5f + final_i * size.y.toFloat() / 11, 5f, null)
                 }
             }
             // Now draw the player spaceship
-            canvas.drawBitmap(ship.Vbitmap, ship.position.left,
-                ship.position.top,null)
+            canvas.drawBitmap(
+                ship.Vbitmap, ship.position.left,
+                ship.position.top, null
+            )
 
-            canvas.drawBitmap(upBitmap,20f,size.y.toFloat() - (2 * size.y / 11),null)
-            canvas.drawBitmap(downBitmap,2*size.y.toFloat() /11 + 20f,size.y.toFloat() - (2 * size.y / 11),null)
-            canvas.drawBitmap(pewBitmap,size.x.toFloat() - 2*size.y/11 - 20f,size.y.toFloat() - (2 * size.y / 11),null)
+            canvas.drawBitmap(upBitmap, 20f, size.y.toFloat() - (2 * size.y / 11), null)
+            canvas.drawBitmap(
+                downBitmap,
+                2 * size.y.toFloat() / 11 + 20f,
+                size.y.toFloat() - (2 * size.y / 11),
+                null
+            )
+            canvas.drawBitmap(
+                pewBitmap,
+                size.x.toFloat() - 2 * size.y / 11 - 20f,
+                size.y.toFloat() - (2 * size.y / 11),
+                null
+            )
 
             // Draw the score
             paint.color = Color.argb(255, 255, 255, 255)
             paint.textSize = 50f
-            canvas.drawText("Score: $score", 8.2f*size.x.toFloat()/10f, 75f, paint)
+            canvas.drawText("Score: $score", 8.2f * size.x.toFloat() / 10f, 75f, paint)
 
             holder.unlockCanvasAndPost(canvas)
 
@@ -173,46 +201,114 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     override fun run() {
         var fps: Long = 1
-        if (campaignMusic != null){isMusicOn = true}
-        while (playing){
-            // Capture the current time
-            val startFrameTime = System.currentTimeMillis()
+        if (campaignMusic != null) {
+            isMusicOn = true
+        }
+        while (playing || !playing) {
 
-            // Update the frame
-            if (!paused) {
-                update(fps)
-                trashCollector()
+            shipligne = 6
+            score = 0
+            ship = Ship(context, size.x, size.y)
+            typemob = 1
+            enemies.clear()
+            nbre_enemies = 0
+            lasers.clear()
+            missiles.clear()
+            bosses.clear()
+            nextBossMulti = 1
+            BackgroundNumber = 0
+
+            while (playing) {
+                // Capture the current time
+                val startFrameTime = System.currentTimeMillis()
+
+                // Update the frame
+                if (!paused) {
+                    update(fps)
+                    trashCollector()
+                }
+
+                if (isMusicOn && bosses.isNotEmpty() && campaignMusic != null && bossMusic == null) {
+                    bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
+                    bossMusic!!.isLooping = true
+                    bossMusic!!.start()
+                    campaignMusic!!.stop()
+                    campaignMusic = null
+                }
+
+                if (isMusicOn && bosses.isEmpty() && campaignMusic == null && bossMusic != null) {
+                    campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
+                    campaignMusic!!.isLooping = true
+                    campaignMusic!!.start()
+                    bossMusic!!.stop()
+                    bossMusic = null
+                }
+
+                draw()
+
+                // Calculate the fps rate this frame
+                val timeThisFrame = System.currentTimeMillis() - startFrameTime
+                if (timeThisFrame >= 1) {
+                    fps = 1000 / timeThisFrame
+                }
+                if (fps < 1) {
+                    fps = 1
+                }
             }
 
-            if (isMusicOn && bosses.isNotEmpty() && campaignMusic != null && bossMusic == null){
-                bossMusic = MediaPlayer.create(context, R.raw.pew_pew_boss_music)
-                bossMusic!!.isLooping = true
-                bossMusic!!.start()
-                campaignMusic!!.stop()
-                campaignMusic = null
+            while (!playing) {
+                gameOver()
             }
+        }
+    }
 
-            if (isMusicOn && bosses.isEmpty() && campaignMusic == null && bossMusic != null){
-                campaignMusic = MediaPlayer.create(context, R.raw.pew_pew_music_campagne)
-                campaignMusic!!.isLooping = true
-                campaignMusic!!.start()
-                bossMusic!!.stop()
-                bossMusic = null
-            }
+    fun gameOver() {
+        //fction responsable du dessiner les bitmaps sur imageview
+        if (holder.surface.isValid) {
+            var gameOverScreenBitmap: Bitmap =
+                BitmapFactory.decodeResource(context.resources, R.drawable.ice_planet)
 
-            draw()
+            gameOverScreenBitmap =
+                Bitmap.createScaledBitmap(gameOverScreenBitmap, size.x, size.y, false)
 
-            // Calculate the fps rate this frame
-            val timeThisFrame = System.currentTimeMillis() - startFrameTime
-            if(timeThisFrame >= 1) {fps = 1000 / timeThisFrame}
+            // Lock the canvas ready to draw
+            canvas = holder.lockCanvas()
+
+            // Draw the background color
+            canvas.drawBitmap(gameOverScreenBitmap, 0f, 0f, null)
+
+            paint.color = Color.argb(255, 150, 150, 150)
+
+            canvas.drawRect(2f * size.x / 10f, 4.5f * size.y / 10f,4f * size.x / 10f, 5.5f * size.y / 10f,paint)
+            canvas.drawRect(6f * size.x / 10f, 4.5f * size.y / 10f,8f * size.x / 10f, 5.5f * size.y / 10f,paint)
+
+            // Draw the score
+            paint.color = Color.argb(255, 0, 0, 0)
+            paint.textSize = 100f
+            canvas.drawText("Score: $score", 4f * size.x.toFloat() / 10f, 7.5f * size.y / 10f, paint)
+
+            // Draw Exit Button
+            paint.textSize = 80f
+            canvas.drawText("Exit", 2.7f * size.x.toFloat() / 10f, 5.25f * size.y / 10f, paint)
+
+            // Draw Play Again Button
+            paint.textSize = 80f
+            canvas.drawText("Play Again", 6.2f * size.x.toFloat() / 10f, 5.25f * size.y / 10f, paint)
+
+            // Draw Game Over text
+            paint.color = Color.argb(255, 255, 0, 0)
+            paint.textSize = 150f
+            canvas.drawText("Game Over", 3.5f * size.x.toFloat() / 10f, 2.5f * size.y / 10f, paint)
+
+            holder.unlockCanvasAndPost(canvas)
 
         }
     }
 
-    fun trashCollector(){
+    fun trashCollector() {
         val laserSafeRemove = lasers.toMutableList()
         for (laser in lasers) {
-            if(!laser.visible){
+            if (!laser.visible) {
                 laserSafeRemove.remove(laser)
             }
         }
@@ -220,9 +316,9 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
         val enemySafeRemove = enemies.toMutableList()
         for (enemy in enemies) {
-            if(!enemy.visible){
+            if (!enemy.visible) {
                 enemySafeRemove.remove(enemy)
-                if(enemy.points >= 0){
+                if (enemy.points >= 0) {
                     score += enemy.points * nextBossMulti
                 } else {
                     ship.degat()
@@ -233,15 +329,15 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
         val missileSafeRemove = missiles.toMutableList()
         for (missile in missiles) {
-            if(!missile.visible){
+            if (!missile.visible) {
                 missileSafeRemove.remove(missile)
             }
         }
         missiles = missileSafeRemove as ArrayList<Missile>
 
-        if (bosses.isNotEmpty() && bosses[0].vie <= 0){
+        if (bosses.isNotEmpty() && bosses[0].vie <= 0) {
             bosses.clear()
-            if (typemob == 3){
+            if (typemob == 3) {
                 typemob = 1
                 BackgroundNumber = 0
             } else {
@@ -253,18 +349,18 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
             nbre_enemies = 0
         }
 
-        if (ship.vie <= 0){
+        if (ship.vie <= 0) {
             pause()
         }
     }
 
-    fun update(fps : Long) {
-        if (enemies.isEmpty() || enemies[enemies.size-1].position.right < 3f*size.x/4f){
+    fun update(fps: Long) {
+        if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 3f * size.x / 4f) {
             spawn()
         }
 
-        if(laserSafeAdd.isNotEmpty()){
-            for(laser in laserSafeAdd){
+        if (laserSafeAdd.isNotEmpty()) {
+            for (laser in laserSafeAdd) {
                 lasers.add(laser)
             }
             laserSafeAdd.clear()
@@ -275,28 +371,36 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
 
         for (laser in lasers) {
-            laser.update(fps,"ship",enemies,missiles,ship,bosses)
+            laser.update(fps, "ship", enemies, missiles, ship, bosses)
         }
 
         for (missile in missiles) {
-            missile.update(fps,typemob,enemies,missiles,ship,bosses)
+            missile.update(fps, typemob, enemies, missiles, ship, bosses)
         }
 
-        if(bosses.isNotEmpty()){
+        if (bosses.isNotEmpty()) {
             bosses[0].update(fps)
-            if (bosses[0].isShooting){
-                missiles.add(Missile(context,size.x,size.y,bosses[0].ligneWhereShot,typemob,bosses[0].position.left))
+            if (bosses[0].isShooting) {
+                missiles.add(
+                    Missile(
+                        context,
+                        size.x,
+                        size.y,
+                        bosses[0].ligneWhereShot,
+                        typemob,
+                        bosses[0].position.left
+                    )
+                )
             }
         }
     }
 
-    var pewSound : MediaPlayer? = null
-    fun pewSound () {
+    var pewSound: MediaPlayer? = null
+    fun pewSound() {
         pewSound = MediaPlayer.create(context, R.raw.pew)
         pewSound!!.isLooping = false
         pewSound!!.start()
     }
-
 
 
     var clic = true
@@ -318,42 +422,62 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
 
     override fun onTouchEvent(motionEvent: MotionEvent): Boolean {
-        val motionArea = size.y - (2 * size.y / 11)
-        when (motionEvent.action and MotionEvent.ACTION_MASK) {
+        if(true) {
+            if (playing) {
+                val motionArea = size.y - (2 * size.y / 11)
+                when (motionEvent.action and MotionEvent.ACTION_MASK) {
 
-            // Player has touched the screen
-            // Or moved their finger while touching screen
-            MotionEvent.ACTION_POINTER_DOWN,
-            MotionEvent.ACTION_DOWN,
-            MotionEvent.ACTION_MOVE-> {
-                if (motionEvent.y > motionArea && clic) {
-                    if (motionEvent.x > 20f && motionEvent.x < 2*size.y/11 + 20f) {
-                        ship.bouge(1)
-                        clic = false
-                    } else if (motionEvent.x > 2*size.y/11 + 20f && motionEvent.x < 4*size.y/11 + 20f){
-                        ship.bouge(-1)
-                        clic = false
-                    } else if (motionEvent.x > size.x - 2*size.y/11 - 20f && motionEvent.x < size.x - 20f) {
-                        newPewTime = System.currentTimeMillis()
-                        if (newPewTime - lastPewTime >= 500){
-                            lastPewTime = newPewTime
-                            pewSound()
-                            clic = false
+                    // Player has touched the screen
+                    // Or moved their finger while touching screen
+                    MotionEvent.ACTION_POINTER_DOWN,
+                    MotionEvent.ACTION_DOWN,
+                    MotionEvent.ACTION_MOVE -> {
+                        if (motionEvent.y > motionArea && clic) {
+                            if (motionEvent.x > 20f && motionEvent.x < 2 * size.y / 11 + 20f) {
+                                ship.bouge(1)
+                                clic = false
+                            } else if (motionEvent.x > 2 * size.y / 11 + 20f && motionEvent.x < 4 * size.y / 11 + 20f) {
+                                ship.bouge(-1)
+                                clic = false
+                            } else if (motionEvent.x > size.x - 2 * size.y / 11 - 20f && motionEvent.x < size.x - 20f) {
+                                newPewTime = System.currentTimeMillis()
+                                if (newPewTime - lastPewTime >= 500) {
+                                    lastPewTime = newPewTime
+                                    pewSound()
+                                    clic = false
 
-                            laserSafeAdd.add(Laser(context,size.x,size.y, shipligne))
+                                    laserSafeAdd.add(Laser(context, size.x, size.y, shipligne))
+                                }
+                            }
+                        }
+                    }
+
+                    MotionEvent.ACTION_POINTER_UP,
+                    MotionEvent.ACTION_UP -> clic = true
+                }
+
+            }
+
+            if (!playing) {
+                when (motionEvent.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_POINTER_DOWN,
+                    MotionEvent.ACTION_DOWN,
+                    MotionEvent.ACTION_MOVE -> {
+                        if (motionEvent.y > 0.4f * size.y && motionEvent.y < 0.6f * size.y) {
+                            if (motionEvent.x > 0.2f * size.x && motionEvent.x < 0.4f * size.x) {
+                                exitProcess(-1)
+                            }
+                            if (motionEvent.x > 0.6f * size.x && motionEvent.x < 0.8f * size.x) {
+                                playing = true
+                            }
                         }
                     }
                 }
-            }
 
-            MotionEvent.ACTION_POINTER_UP,
-            MotionEvent.ACTION_UP -> clic = true
+            }
         }
         return true
     }
-
-
-
 }
 
 
