@@ -37,8 +37,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
     private var nextBossMulti = 1
 
-    private fun spawn() {
-        if (nbre_enemies <= 40 * (nextBossMulti)) {
+    private fun spawn(BossReinforcements : Boolean) {
+        if (nbre_enemies <= 25 + 10 * (nextBossMulti) || BossReinforcements) {
             val ligne_spawn = arrayListOf<Int>()
             var inttoadd = (2..8).random()
             ligne_spawn.add(inttoadd)
@@ -67,9 +67,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                 nbre_enemies++
             }
 
-        } else {
+        } else if (bosses.isEmpty()){
             bosses.add(Boss(context, size.x, size.y, 6, typemob, nextBossMulti))
-
         }
 
     }
@@ -346,20 +345,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
     }
 
     private fun update(fps: Long) {
-        if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 3f * size.x / 4f) {
-            spawn()
-        }
-
-        if (laserSafeAdd.isNotEmpty()) {
-            for (laser in laserSafeAdd) {
-                lasers.add(laser)
-            }
-            laserSafeAdd.clear()
-        }
-
-        for (enemy in enemies) {
-            enemy.update(fps)
-        }
+        ship.shieldRegeneration()
 
         for (laser in lasers) {
             laser.update(fps, "ship", enemies, missiles, ship, bosses)
@@ -367,6 +353,10 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
         for (missile in missiles) {
             missile.update(fps, typemob, enemies, missiles, ship, bosses)
+        }
+
+        for (enemy in enemies) {
+            enemy.update(fps)
         }
 
         if (bosses.isNotEmpty()) {
@@ -382,7 +372,20 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
                         bosses[0].position.left
                     )
                 )
+            } else if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 2f * size.x / 3f) {
+                spawn(true)
             }
+        }
+
+        if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 4f * size.x / 5f) {
+            spawn(false)
+        }
+
+        if (laserSafeAdd.isNotEmpty()) {
+            for (laser in laserSafeAdd) {
+                lasers.add(laser)
+            }
+            laserSafeAdd.clear()
         }
     }
 

@@ -45,7 +45,6 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
                 shipligne++
             }
             position.bottom = position.top + hauteur
-            shieldRegeneration()
         }
     }
 
@@ -60,7 +59,7 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         timeShieldWentDown = System.currentTimeMillis()
     }
 
-    private fun shieldRegeneration () {
+    fun shieldRegeneration () {
         if (shield <= 1f && System.currentTimeMillis() - timeShieldWentDown >= 10000){
             shield += 0.1f
         }

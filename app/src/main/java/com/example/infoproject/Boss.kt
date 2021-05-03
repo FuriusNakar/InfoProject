@@ -10,7 +10,7 @@ import java.util.ArrayList
 class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int, vieMulti : Int) {
 
 
-    var vie = 25 + 10 * vieMulti
+    var vie = 5 + 5 * vieMulti
     private val largeur = ScreenY / 6f
     private val hauteur = ScreenY / 6f
 
@@ -86,7 +86,7 @@ class Boss(context : Context, private val ScreenX : Int, private val ScreenY : I
             }
 
             if (position.top < 1f * ScreenY / 11f || position.bottom > 9f * ScreenY / 11f ){
-                if(position.left <= 7f * ScreenX / 10f){
+                if(position.left <= 5f * ScreenX / 10f){
                     signOffset = 1
                 }
 
