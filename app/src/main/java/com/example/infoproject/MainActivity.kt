@@ -81,7 +81,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
 
 
     // Play campaign Music and switch button
-    fun playSound() {
+    fun playSound(v: View?) {
         campaignMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
         campaignMusic!!.isLooping = true
         campaignMusic!!.start()
@@ -93,7 +93,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // Stop campaign Music and switch button
-    fun stopSound() {
+    fun stopSound(v: View?) {
         if (campaignMusic != null) {
             campaignMusic!!.stop()
             campaignMusic!!.release()
