@@ -16,7 +16,8 @@ class Laser (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int) : Bu
 
     override fun update(fps : Long, typemob : Any, enemies: ArrayList<Enemy>,
                         missiles: ArrayList<Missile>, ship: Ship, bosses: ArrayList<Boss>) {
-        super.update(fps,typemob,enemies,missiles,ship, bosses) //récupère la fonction update telle qu'elle est définie dans Bullet
+        super.update(fps,typemob,enemies,missiles,ship, bosses)
+        //récupère la fonction update telle qu'elle est définie dans Bullet et ajoute les détections de collisions avec les missiles, ennemis et boss en plus de changer le statut visible si celui ci quitte l'écran.
         if (missiles.isNotEmpty()){
             for (Missile in missiles) {
                 if (RectF(position.left-ScreenX/4.5f,position.top,position.right,position.bottom).intersect(Missile.position)) {

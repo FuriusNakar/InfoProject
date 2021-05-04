@@ -46,7 +46,7 @@ open class Bullet(context: Context, val ScreenX: Int,ScreenY: Int,ligne: Int,typ
     open fun update(fps: Long, typemob: Any, enemies: ArrayList<Enemy>,
         missiles: ArrayList<Missile>, ship: Ship, bosses: ArrayList<Boss>
     ) {
-        //Méthode de mouvement en fonction du type
+        //Méthode de mouvement en fonction du type, méthode open pour pouvoir être modifiée dans les sous classes
         if (typemob == "ship") {
             if (position.right < ScreenX) {
                 position.right += 2.5f * SPEEEEED / fps

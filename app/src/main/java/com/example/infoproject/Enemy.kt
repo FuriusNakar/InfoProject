@@ -6,12 +6,6 @@ import android.graphics.BitmapFactory
 import android.graphics.RectF
 
 class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, ligne : Int) {
-    //Paramètre de Enemy : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
-    // ligne sert pour le spawn (random)
-    // transfore image du enemy en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
-
-    //dans le View il y a moulte enemy -> posy random, posx initial fixé
-    private var vie = 1
     //redimensionnement
     private val largeur = ScreenY / 11f
     private val hauteur = ScreenY / 11f
@@ -23,7 +17,7 @@ class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, lig
 
     val type = typemob
 
-    //pos
+    //Défini la position, boite de collisions de l'ennemi
     val position =
         RectF(
             ScreenX - 0f,
@@ -32,15 +26,12 @@ class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, lig
             ScreenY * ligne / 11f + hauteur/2
         )
 
-    //SPEEEEEED
-    private val SPEEEEED = 100f   //rapido bb
-
-    // donnée accessible hors class --> companion (fait le travail de NomClass.NomMethode)
+    //Vitesse
+    private val SPEEEEED = 100f
 
     lateinit var Ebitmap : Bitmap
 
-
-    //transformation et redimenssionnement du vaisseau en fction des dimenssion souhaité
+    //redimenssionnement de l'ennemi en fonction des dimensions et images souhaitées
     var points = 0
     init {
         when (typemob){
@@ -62,24 +53,20 @@ class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, lig
     }
 
     fun update(fps : Long) {
-        if (vie > 0) {
+        //fonction qui fait les ennemi se déplacer et qui les tuent si ils sortent de l'écran
+        if (visible) {
             if (position.right > 0) {
                 position.left -= SPEEEEED / fps
                 position.right = position.left + largeur
-            } else if(position.right <= 0){
+            } else if (position.right <= 0) {
                 points = -points
-                vie = 0
                 visible = false
             }
-
-
-        }
-        else {
-            visible = false
         }
     }
+
     fun degat(){
-        vie--
+        //fonction appelée par le laser pour infliger un dégat à l'ennemi qu'il touche
         visible = false
     }
 }
