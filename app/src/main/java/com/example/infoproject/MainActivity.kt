@@ -12,33 +12,37 @@ import kotlinx.android.synthetic.main.start_screen.*
 
 
 class PewPewActivity : AppCompatActivity(), View.OnClickListener {
-
+    //liste des images pour chaque type de vaisseau
     private val spaceship_list = intArrayOf(R.drawable.spaceship_blue,R.drawable.spaceship_green,R.drawable.spaceship_red)
     private val xwing_list = intArrayOf(R.drawable.xwing_blue,R.drawable.xwing_green, R.drawable.xwing_red)
     private val vargur_list = intArrayOf(R.drawable.vargur_blue,R.drawable.vargur_green, R.drawable.vargur_red)
 
-    //liste dans une liste, sur python c'était comme ca
+    //liste des listes de vaisseaux
     private val test_shiplist = arrayListOf(spaceship_list, xwing_list,vargur_list)
 
 
 
 
-    //val list_ship = intArrayOf(R.drawable.spaceship_blue, R.drawable.xwing_blue)
+    //liste d'images pour le choix des couleurs
     private val list_color = intArrayOf(R.drawable.pentagone_bleu, R.drawable.pentagone_vert, R.drawable.pentagone_rouge)
-    //val is_ship de base = list_ship[0]
+    //définition du vaisseau de base comme étant celui de la première couleur et du premier type ("spaceship_blue")
     private var id_ship = 0
     private var couleur_id = 0
 
     companion object{
+        //Création de la variable définisant le skin du vaisseau (variable devant être accessible dans d'autres classes)
         var Vso = 0
+        //Création des 2 variables s'occupant de la musique devant être accessible dans le PewPewView également
         var campaignMusic : MediaPlayer? = null
         var bossMusic : MediaPlayer? = null
     }
 
     init {
-        Vso = test_shiplist[0][0]
+        //Définition du skin du vaisseau de base comme étant du premier type et de la première couleur
+        Vso = test_shiplist[id_ship][couleur_id]
     }
 
+    //Création du MediaPlayer jouant le son survenant lorsqu'on lance la partie
     private var grantedSound : MediaPlayer? = null
 
     private var PewPewView: PewPewView? = null
@@ -52,20 +56,21 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         previous_shipcolor.setOnClickListener(this)
         next_shipcolor.setOnClickListener(this)
 
-        //start_button onclicklistener qui lance une deuxième activité de jeux (pewpewview)
+        //start_button onclicklistener qui lance le jeu, PewPewView, et qui joue le granted sound
         start_button.setOnClickListener{
             grantedSound = MediaPlayer.create(this, R.raw.access_granted_sound)
             grantedSound!!.isLooping = false
             grantedSound!!.start()
             while (grantedSound!!.isPlaying) {}
 
-            // Get a Display object to access screen details
+            // Rend les détails de l'écran accessibles
             val display = windowManager.defaultDisplay
-            // Load the resolution into a Point object
+            // Charge la résolution de l'écran. Obtention de la taille
+
             val size = Point()
             display.getSize(size)
 
-            // Initialize gameView and set it as the view
+            // Initialise le fichier de vue du jeu et défini le contenu de l'écran
             PewPewView = PewPewView(this, size)
             setContentView(PewPewView)
             if (PewPewView?.playing == true){
@@ -80,7 +85,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    // Play campaign Music and switch button
+    // Joue la musique et change l'image du bouton de musique
     fun playSound(v: View?) {
         campaignMusic = MediaPlayer.create(this, R.raw.pew_pew_music_campagne)
         campaignMusic!!.isLooping = true
@@ -92,7 +97,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         playButton.alpha = 0f
     }
 
-    // Stop campaign Music and switch button
+    // Arrête la musique et change l'image du bouton de musique
     fun stopSound(v: View?) {
         if (campaignMusic != null) {
             campaignMusic!!.stop()
@@ -106,7 +111,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         playButton.alpha = 0.5f
     }
 
-    // Stops Music when the app is closed
+    // Arrête la musique quand le jeu est fermé
     override fun onStop() {
         super.onStop()
         if (campaignMusic != null) {
@@ -133,6 +138,7 @@ class PewPewActivity : AppCompatActivity(), View.OnClickListener {
         PewPewView?.pause()
     }
 
+    //Fonction permetant de donner des actions aux boutons du xml start_screen
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id){
