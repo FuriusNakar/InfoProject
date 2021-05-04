@@ -9,38 +9,33 @@ import com.example.infoproject.PewPewView.Companion.shipligne
 
 
 class Ship (context : Context, private val ScreenX : Int, private val ScreenY : Int) {
-    //Paramètre du ship : Context (instaure les commandes de base), Dimension de l'écran (taille du ship varie d'un appareil à uin autre )
+    //Création de ma Bitmap du vaisseau
+    var Vbitmap: Bitmap = BitmapFactory.decodeResource(context.resources, Vso)
 
-    // transfore image du ship en Bitmap (en pixel) -> pratique pour hitbox d'après ce que j'ai compris
-
-    var Vbitmap: Bitmap =
-        BitmapFactory.decodeResource(context.resources, Vso) //herédité de Bitmap
-
+    //Variable de vie et de bouclier du vaisseau
     var vie = 5
-    var shield = 1f
+    var shield = 0f
 
-    //redimensionnement
+    //Calcul des dimensions du vaisseau
     private val largeur = ScreenY / 11f
     private val hauteur = ScreenY / 11f
 
-    //pos
+    //Création de la boite de collision du vaisseau
     var position =
         RectF(20f, 6f * ScreenY / 11f - hauteur / 2f, 20f + largeur, 6* ScreenY / 11f + hauteur / 2f)
 
-    //redimenssionnement du vaisseau sur le convas qu'on a
+    //redimenssionnement de l'image du vaisseau en fonction des dimensions de la boite de collision
     init{Vbitmap = Bitmap.createScaledBitmap(Vbitmap, largeur.toInt(), hauteur.toInt(), false)}
 
 
-    //function qui s'occupe du mouvement
-    //ici la fonction est adaptée à notre cas (mouvement vertical et non horizontal)
+    //function qui s'occupe du mouvement du vaisseau
     fun bouge (direction : Int) {
-        // Can move as long as it doesn't try and leave the screen
-        var bouge = direction
         if (vie > 0) {
-            if (bouge == 1 && position.top > 2f / 11f * ScreenY) {
+            //le vaisseau peut bouger tant qu'il se trouve dans la zone de jeu
+            if (direction == 1 && position.top > 2f / 11f * ScreenY) {
                 position.top -= hauteur
                 shipligne--
-            } else if (bouge == -1 && position.bottom < 8f / 11f * ScreenY) {
+            } else if (direction == -1 && position.bottom < 8f / 11f * ScreenY) {
                 position.top += hauteur
                 shipligne++
             }
@@ -48,9 +43,11 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
         }
     }
 
+    //Variable chronometrant le temps écoulé
     private var timeShieldWentDown = System.currentTimeMillis()
 
     fun degat(){
+        //Fonction infligeant des dégats au ship ou au bouclier si il est chargé. Elle update le timer de rechargement.
         if (shield >= 1f) {
             shield = 0f
         } else {
@@ -60,8 +57,9 @@ class Ship (context : Context, private val ScreenX : Int, private val ScreenY : 
     }
 
     fun shieldRegeneration () {
-        if (shield <= 1f && System.currentTimeMillis() - timeShieldWentDown >= 10000){
-            shield += 0.1f
+        //Si il s'est écoulé au moins 10secondes entre la dernière activation de la fonction dégat et l'activation de la fonction shieldRegenerationa lors le shield reprendra une valeur de 1 (sera rechargé)
+        if (shield < 1f && System.currentTimeMillis() - timeShieldWentDown >= 10000){
+            shield = 1f
         }
     }
 }

@@ -14,8 +14,8 @@ class Missile (context : Context, ScreenX : Int, ScreenY : Int,  ligne : Int, ty
 
     override fun update(fps : Long, typemob : Any, enemies: ArrayList<Enemy>,
                         missiles: ArrayList<Missile>, ship: Ship ,bosses: ArrayList<Boss>) {
-        super.update(fps,typemob,enemies,missiles,ship,bosses) //récupère la fonction update telle qu'elle est définie dans Bullet
-
+        super.update(fps,typemob,enemies,missiles,ship,bosses)
+        //récupère la fonction update telle qu'elle est définie dans Bullet et ajoute les fonctions propres
         if (position.intersect(ship.position)) {
             ship.degat()
             visible = false
