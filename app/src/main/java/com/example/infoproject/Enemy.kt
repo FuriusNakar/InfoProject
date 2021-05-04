@@ -19,6 +19,10 @@ class Enemy (context : Context, ScreenX : Int, ScreenY : Int, typemob : Int, lig
     //booleen qui sert pour check si enemy vivant ou non --> trash collector
     var visible = true
 
+    val lignePos = ligne
+
+    val type = typemob
+
     //pos
     val position =
         RectF(

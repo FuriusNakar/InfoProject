@@ -8,8 +8,6 @@ import android.graphics.RectF
 import java.util.ArrayList
 
 class Boss(context : Context, private val ScreenX : Int, private val ScreenY : Int, ligne : Int, typeboss : Int, vieMulti : Int) {
-
-
     var vie = 5 + 5 * vieMulti
     private val largeur = ScreenY / 6f
     private val hauteur = ScreenY / 6f
