@@ -365,9 +365,9 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         if (bosses.isNotEmpty()) {
             bosses[0].update(fps)
             if (bosses[0].isShooting) {
-                for (i in 0..((1f/3f * (nextBossMulti-1))).toInt()){
+                for (i in (0..(1f/3f * (nextBossMulti-1)).toInt())){
                     missiles.add(
-                        Missile(context,size.x,size.y,bosses[0].ligneWhereShot,typemob,bosses[0].position.left - i * size.y/20))
+                        Missile(context,size.x,size.y,bosses[0].ligneWhereShot,typemob,bosses[0].position.left + (i - (1f/3f * (nextBossMulti-1)).toInt()) * size.y/20))
                 }
             } else if (enemies.isEmpty() || enemies[enemies.size - 1].position.right < 2f * size.x / 3f) {
                 spawn(true)
