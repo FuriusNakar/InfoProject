@@ -344,8 +344,8 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
     }
 
-    var timeAnEnemyShot = System.currentTimeMillis()
-    var currentTime = System.currentTimeMillis()
+    private var timeAnEnemyShot = System.currentTimeMillis()
+    private var currentTime = System.currentTimeMillis()
 
     private fun update(fps: Long) {
         ship.shieldRegeneration()
@@ -376,7 +376,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
 
         currentTime = System.currentTimeMillis()
         if (enemies.isNotEmpty() && bosses.isEmpty() && missiles.isEmpty() && currentTime - timeAnEnemyShot >= (10000-(500 * (nextBossMulti-1)))){
-            val enemyShootingNum = (0..(enemies.size - 1 )).random()
+            val enemyShootingNum = (0 until enemies.size).random()
             if (enemies[enemyShootingNum].type == typemob && enemies[enemyShootingNum].visible){
                 missiles.add(Missile(context,size.x,size.y,enemies[enemyShootingNum].lignePos,typemob,enemies[enemyShootingNum].position.left))
                 timeAnEnemyShot = currentTime
