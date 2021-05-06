@@ -375,7 +375,7 @@ class PewPewView(context: Context, private val size: Point) : SurfaceView(contex
         }
 
         currentTime = System.currentTimeMillis()
-        if (enemies.isNotEmpty() && bosses.isEmpty() && missiles.isEmpty() && currentTime - timeAnEnemyShot >= (10000-(500 * (nextBossMulti-1)))){
+        if (enemies.isNotEmpty() && bosses.isEmpty() && missiles.isEmpty() && currentTime - timeAnEnemyShot >= 2000 && currentTime - timeAnEnemyShot >= (10000-(500 * (nextBossMulti-1)))){
             val enemyShootingNum = (0 until enemies.size).random()
             if (enemies[enemyShootingNum].type == typemob && enemies[enemyShootingNum].visible){
                 missiles.add(Missile(context,size.x,size.y,enemies[enemyShootingNum].lignePos,typemob,enemies[enemyShootingNum].position.left))
