@@ -1,8 +1,6 @@
 # InfoProject
 
 
-Projet info "space impact" oklm ez
+Projet info BA2 POO : PiewPiewGame
 
-
-
-EZPZ
+Autheur : Pichun, FuriusNakar, Amalyia 
